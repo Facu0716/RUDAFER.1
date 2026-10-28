@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUDAFER - Movimientos">
+    <title>RUDAFER | Movimientos</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="MOVIMIENTOS.css">
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+    <style>
+        .movement-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-width: 105px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .movement-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block !important;
+        }
+        .movement-type.venta, .movement-type.sale { color: var(--orange); }
+        .movement-type.compra, .movement-type.purchase { color: var(--success); }
+        .movement-type.transferencia, .movement-type.transfer { color: #47739a; }
+        .movement-type.pago { color: #eab308; }
+        .movement-type.adjustment { color: var(--warning); }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></span>
+                    <span>Inicio</span>
+                </a>
+                <a href="INVENTARIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+                    <span>Inventario</span>
+                </a>
+                <a href="PEDIDOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6M9 7h3"/></svg></span>
+                    <span>Pedidos</span>
+                </a>
+                <a href="MOVIMIENTOS.html" class="nav-item active">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 7h11l-2.5-2.5"/><path d="M17 17H6l2.5 2.5"/><path d="M18 7a6 6 0 0 0-6-4"/><path d="M6 17a6 6 0 0 0 6 4"/></svg></span>
+                    <span>Movimientos</span>
+                </a>
+                <a href="REPORTES.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-8"/><path d="M3 19h18"/></svg></span>
+                    <span>Reportes</span>
+                </a>
+                <a href="ADMINISTRACION.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1.1 1.6 1.6-.1.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h-.1a1.8 1.8 0 0 0-1.7.8z"/></svg></span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" id="busqueda-global" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+                <div class="topbar-actions">
+                    <!-- Selector Global de Sucursal unificado (0 = Vista General) -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+                        <label for="selectSucursalGlobal" style="font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL:</label>
+                        <select id="selectSucursalGlobal" class="form-control" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold; font-size: 13px;">
+                            <option value="0">🌐 Vista General (Todas)</option>
+                            <option value="1">Sucursal Central</option>
+                            <option value="2">Sucursal 2</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class="topbar-actions">
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track"><span class="theme-knob"></span></span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content movements-page">
+                <section class="movements-heading">
+                    <div>
+                        <span class="eyebrow">HISTORIAL DEL SISTEMA</span>
+                        <h2>Movimientos</h2>
+                        <p>Registro de todas las entradas y salidas de mercadería y pagos de RUDAFER.</p>
+                    </div>
+                </section>
+
+               <!-- RESUMEN -->
+                <section class="movement-summary">
+                    <article class="movement-summary-card">
+                        <span class="summary-icon sale"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h5M8 16h4"/></svg></span>
+                        <div><span>Ventas</span><strong id="resumenVentas">0</strong></div>
+                    </article>
+                    <article class="movement-summary-card">
+                        <span class="summary-icon purchase"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg></span>
+                        <div><span>Compras</span><strong id="resumenCompras">0</strong></div>
+                    </article>
+                    <article class="movement-summary-card">
+                        <span class="summary-icon transfer"><svg viewBox="0 0 24 24"><path d="M5 7h13l-3-3"/><path d="M19 17H6l3 3"/></svg></span>
+                        <div><span>Transferencias</span><strong id="resumenTransferencias">0</strong></div>
+                    </article>
+                    <article class="movement-summary-card">
+                        <span class="summary-icon payment" style="color: #eab308; background: rgba(234, 179, 8, 0.12);"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+                        <div><span>Pagos</span><strong id="resumenPagos">0</strong></div>
+                    </article>
+                </section>
+
+                <!-- FILTROS -->
+                <section class="movement-filters">
+                    <div class="movement-filter">
+                        <label for="filtroMovimiento">TIPO DE MOVIMIENTO</label>
+                        <select id="filtroMovimiento">
+                            <option value="todos">Todos los movimientos</option>
+                            <option value="venta">Ventas</option>
+                            <option value="compra">Compras</option>
+                            <option value="pago">Pagos</option>
+                            <option value="transferencia">Transferencias</option>
+                        </select>
+                    </div>
+
+                    <div class="movement-filter">
+                        <label for="filtroFechaDesde">DESDE</label>
+                        <input type="date" id="filtroFechaDesde">
+                    </div>
+
+                    <div class="movement-filter">
+                        <label for="filtroFechaHasta">HASTA</label>
+                        <input type="date" id="filtroFechaHasta">
+                    </div>
+
+                    <button type="button" class="clear-movement-filters" id="limpiarMovimiento">Limpiar filtros</button>
+                </section>
+
+                <!-- TABLA -->
+                <section class="movements-section">
+                    <div class="movements-header">
+                        <div>
+                            <h3>Historial de movimientos</h3>
+                            <span id="infoConteoMovimientos">Últimos movimientos registrados</span>
+                        </div>
+                        <div class="movement-sort">
+                            <span>Ordenar por</span>
+                            <select id="ordenMovimientos">
+                                <option value="reciente">Más recientes</option>
+                                <option value="antiguo">Más antiguos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="movements-table-card">
+                        <div class="movements-table-wrapper">
+                            <table class="movements-table">
+                                <thead>
+                                    <tr>
+                                        <th>FECHA</th>
+                                        <th>MOVIMIENTO</th>
+                                        <th>DETALLE</th>
+                                        <th>CANTIDAD</th>
+                                        <th>SUCURSAL</th>
+                                        <th>RESPONSABLE</th>
+                                        <th>REFERENCIA</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaMovimientos">
+                                    <tr><td colspan="7" style="text-align: center; padding: 25px; color: var(--muted);">Cargando movimientos...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="movimientos.js"></script>
+</body>
+</html>

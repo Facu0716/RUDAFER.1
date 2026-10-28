@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RUDAFER | Panel de Empleado</title>
+
+    <link
+        rel="stylesheet"
+        href="INICIO.EMPLEADOS.css"
+    >
+
+    <!-- Previene el parpadeo blanco inicial en modo oscuro -->
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+
+</head>
+
+
+<body>
+
+    <!-- MODO OSCURO -->
+
+    <input
+        type="checkbox"
+        id="modo-oscuro"
+        class="theme-toggle-input"
+    >
+
+
+    <!-- APLICACIÓN -->
+
+    <div class="app">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <a
+                    href="EMPLEADO.html"
+                    class="brand-link"
+                >
+
+                    <div class="brand-mark">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <div class="brand-text">
+
+                        <h1>
+                            RUDAFER
+                        </h1>
+
+                        <p>
+                            Gestión Interna
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- NAVEGACIÓN -->
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <!-- Se corrigió el active para que marque Inicio / Ventas -->
+                <a href="INICIO.EMPLEADOS.html" class="nav-item active">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </span>
+                    <span>Inicio / Ventas</span>
+                </a>
+
+                <!-- Catálogo ya no tiene la clase active -->
+                <a href="CATALOGO.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h14v16H5z"/>
+                            <path d="M8 8h8M8 12h8M8 16h5"/>
+                        </svg>
+                    </span>
+                    <span>Catálogo</span>
+                </a>
+            </nav>
+            
+            <!-- CERRAR SESIÓN -->
+
+            
+
+        </aside>
+
+
+        <!-- CONTENIDO PRINCIPAL -->
+
+        <main class="main-content">
+
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+
+                <div class="search-box">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="7"
+                        />
+
+                        <path d="M16 16l5 5"/>
+
+                    </svg>
+
+
+                    <input
+                        type="text"
+                        id="busqueda"
+                        placeholder="Buscar producto..."
+                    >
+
+
+                    <kbd>
+                        Ctrl K
+                    </kbd>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+
+                    <!-- MODO OSCURO -->
+
+                    <label
+                        for="modo-oscuro"
+                        class="theme-switch"
+                    >
+
+                        <span class="theme-sun">
+                            ☀
+                        </span>
+
+                        <div class="theme-track">
+
+                            <div class="theme-knob"></div>
+
+                        </div>
+
+                        <span class="theme-moon">
+                            ☾
+                        </span>
+
+                    </label>
+
+
+                    <!-- USUARIO CON SOPORTE PARA AUTH.JS Y LOGOUT -->
+
+                    <div class="user-profile">
+
+                        <div class="avatar" id="avatarUsuario">
+                            F
+                        </div>
+
+                        <div class="user-info">
+
+                            <strong id="nombreUsuario">
+                                Facundo
+                            </strong>
+
+                            <span id="rolUsuario">
+                                Empleado
+                            </span>
+
+                        </div>
+
+                        <!-- Botón de Cerrar Sesión igual al de Administrador -->
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CONTENIDO DE PÁGINA -->
+
+            <div class="page-content">
+
+
+                <!-- ENCABEZADO DE PÁGINA -->
+
+                <section class="page-heading">
+
+
+                    <div class="heading-left">
+
+                        <span class="eyebrow">
+                            PUNTO DE VENTA
+                        </span>
+
+                        <h2>
+                            Nueva venta
+                        </h2>
+
+                        <p>
+                            Escaneá los productos y completá la operación.
+                        </p>
+
+                    </div>
+
+
+                    <div class="date-pill">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <rect
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                            />
+
+                            <path d="M16 2v4"/>
+                            <path d="M8 2v4"/>
+                            <path d="M3 10h18"/>
+
+                        </svg>
+
+
+                        <span id="fechaActual">
+                            19 Octubre 2026
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- RESUMEN -->
+
+                <section class="stats-grid employee-stats">
+
+
+                    <!-- VENTAS -->
+
+                    <article class="stat-card orange">
+
+                        <div class="stat-top">
+
+                            <span>
+                                VENTAS REALIZADAS
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <svg viewBox="0 0 24 24">
+
+                                    <path d="M4 4h16v16H4z"/>
+                                    <path d="M8 9h8"/>
+                                    <path d="M8 13h8"/>
+                                    <path d="M8 17h5"/>
+
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number" id="summary-sales">
+                            18
+                        </div>
+
+
+                        <div class="stat-bottom">
+
+                            <small>
+                                durante el período actual
+                            </small>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- COMISIÓN -->
+
+                    <article class="stat-card yellow">
+
+                        <div class="stat-top">
+
+                            <span>
+                                COMISIÓN ACUMULADA
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <svg viewBox="0 0 24 24">
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="9"
+                                    />
+
+                                    <path d="M12 7v10"/>
+
+                                    <path d="M9 10h4a2 2 0 0 1 0 4H9"/>
+
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number money" id="summary-commission">
+                            $12.795
+                        </div>
+
+
+                        <div class="stat-bottom">
+
+                            <small>
+                                comisión generada
+                            </small>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- SECCIÓN DE VENTA -->
+
+                <section class="sale-container">
+
+
+                    <!-- PANEL DE PRODUCTOS -->
+
+                    <div class="panel sale-products-panel">
+
+
+                        <!-- ENCABEZADO PANEL -->
+
+                        <div class="panel-header">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    OPERACIÓN
+                                </span>
+
+                                <h2>
+                                    Productos cargados
+                                </h2>
+
+                            </div>
+
+
+                            <span class="sale-status">
+
+                                <span class="status-dot"></span>
+
+                                Venta en curso
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- ESCÁNER DE CÓDIGO -->
+
+                        <div class="scanner-container">
+
+
+                            <div class="scanner-label">
+
+                                <div class="scanner-icon">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M3 5v4"/>
+                                        <path d="M3 5h4"/>
+
+                                        <path d="M21 5v4"/>
+                                        <path d="M21 5h-4"/>
+
+                                        <path d="M3 19v-4"/>
+                                        <path d="M3 19h4"/>
+
+                                        <path d="M21 19v-4"/>
+                                        <path d="M21 19h-4"/>
+
+                                    </svg>
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Escanear producto
+                                    </strong>
+
+                                    <span>
+                                        Escaneá el código de barras o ingresalo manualmente.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="scanner-input-container">
+
+                                <input
+                                    type="text"
+                                    id="barcode-input"
+                                    class="barcode-input"
+                                    placeholder="Escanee o ingrese el código de barras"
+                                    autocomplete="off"
+                                    autofocus
+                                >
+
+
+                                <button
+                                    type="button"
+                                    id="scan-button"
+                                    class="add-product-btn"
+                                >
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <path d="M12 5v14"/>
+                                        <path d="M5 12h14"/>
+
+                                    </svg>
+
+                                    Agregar
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LISTA DE PRODUCTOS -->
+                        <div class="product-list" id="sale-products">
+                            <!-- Vacío al iniciar para que el usuario comience a escanear -->
+                        </div>
+
+
+                        <!-- ACCIONES -->
+
+                        <div class="sale-actions">
+
+                            <button
+                                type="button"
+                                class="cancel-sale-btn"
+                            >
+
+                                Cancelar venta
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="clear-cart-btn"
+                            >
+
+                                Vaciar carrito
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PANEL DE CHECKOUT -->
+
+                    <aside class="panel checkout-panel">
+
+
+                        <!-- TOTAL -->
+
+                        <div class="total-section">
+
+                            <span>
+                                Total de la venta
+                            </span>
+
+                            <strong id="sale-total">
+                                $8.200
+                            </strong>
+
+                        </div>
+
+
+                        <!-- SECCIÓN DE PAGO -->
+
+                        <div class="payment-section">
+
+
+                            <div class="payment-title">
+
+                                <div>
+
+                                    <strong>
+                                        Método de pago
+                                    </strong>
+
+                                    <small>
+                                        Seleccioná cómo abona el cliente.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="payment-methods">
+
+
+                                <!-- EFECTIVO -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="efectivo"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <rect
+                                                x="3"
+                                                y="6"
+                                                width="18"
+                                                height="12"
+                                                rx="2"
+                                            />
+
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="3"
+                                            />
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        Efectivo
+                                    </span>
+
+                                </button>
+
+
+                                <!-- TRANSFERENCIA -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="transferencia"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <path d="M7 7h10"/>
+                                            <path d="M13 3l4 4-4 4"/>
+
+                                            <path d="M17 17H7"/>
+                                            <path d="M11 13l-4 4 4 4"/>
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        Transferencia
+                                    </span>
+
+                                </button>
+
+
+                                <!-- QR -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="qr"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <path d="M4 4h6v6H4z"/>
+                                            <path d="M14 4h6v6h-6z"/>
+                                            <path d="M4 14h6v6H4z"/>
+                                            <path d="M14 14h3"/>
+                                            <path d="M20 14v6"/>
+                                            <path d="M17 17h3"/>
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        QR
+                                    </span>
+
+                                </button>
+
+
+                                <!-- TARJETA DE DÉBITO -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="debito"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <rect
+                                                x="3"
+                                                y="5"
+                                                width="18"
+                                                height="14"
+                                                rx="2"
+                                            />
+
+                                            <path d="M3 10h18"/>
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        Tarjeta de Débito
+                                    </span>
+
+                                </button>
+
+
+                                <!-- TARJETA DE CRÉDITO -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="credito"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <rect
+                                                x="3"
+                                                y="5"
+                                                width="18"
+                                                height="14"
+                                                rx="2"
+                                            />
+
+                                            <path d="M3 10h18"/>
+
+                                            <path d="M7 15h3"/>
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        Tarjeta de Crédito
+                                    </span>
+
+                                </button>
+
+
+                                <!-- OTROS -->
+
+                                <button
+                                    type="button"
+                                    class="payment-method"
+                                    data-payment="otros"
+                                >
+
+                                    <span class="payment-method-icon">
+
+                                        <svg viewBox="0 0 24 24">
+
+                                            <circle cx="12" cy="12" r="10"/>
+
+                                            <path d="M12 8v8"/>
+
+                                            <path d="M8 12h8"/>
+
+                                        </svg>
+
+                                    </span>
+
+                                    <span>
+                                        Otros
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- OPCIONES DE CUOTAS PARA CRÉDITO -->
+
+                            <div
+                                class="card-payment-options"
+                                id="card-payment-options"
+                            >
+
+                                <div class="installments-section">
+
+                                    <span class="payment-subtitle">
+                                        Cuotas
+                                    </span>
+
+
+                                    <div class="installment-options">
+
+                                        <button
+                                            type="button"
+                                            class="installment-button active"
+                                            data-installments="1"
+                                        >
+                                            1 pago
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="installment-button"
+                                            data-installments="3"
+                                        >
+                                            3 cuotas
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="installment-button"
+                                            data-installments="6"
+                                        >
+                                            6 cuotas
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RESUMEN DE CHECKOUT -->
+
+                        <div class="checkout-summary">
+
+
+                            <div class="checkout-line">
+
+                                <span>
+                                    Productos
+                                </span>
+
+                                <strong id="product-count">
+                                    1
+                                </strong>
+
+                            </div>
+
+
+                            <div class="checkout-line">
+
+                                <span>
+                                    Método
+                                </span>
+
+                                <strong id="selected-payment">
+                                    Sin seleccionar
+                                </strong>
+
+                            </div>
+
+
+                            <div class="checkout-line total-line">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong id="checkout-total">
+                                    $8.200
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FINALIZAR COMPRA -->
+
+                        <button
+                            type="button"
+                            id="finish-sale-button"
+                            class="checkout-submit-btn"
+                        >
+
+                            <span>
+                                Finalizar compra
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+
+                        <p class="database-warning">
+
+                            La venta se registrará en el sistema
+                            únicamente al finalizar la compra.
+
+                        </p>
+
+                    </aside>
+
+                </section>
+
+
+                <!-- HISTORIAL -->
+
+                <section class="panel sales-history">
+
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                ACTIVIDAD
+                            </span>
+
+                            <h2>
+                                Mis ventas de hoy
+                            </h2>
+
+                        </div>
+
+
+                        <span class="history-count">
+                            18 operaciones
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Venta
+                                    </th>
+
+                                    <th>
+                                        Hora
+                                    </th>
+
+                                    <th>
+                                        Productos
+                                    </th>
+
+                                    <th>
+                                        Método de pago
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <tr>
+
+                                    <td>
+                                        #000421
+                                    </td>
+
+                                    <td>
+                                        10:32
+                                    </td>
+
+                                    <td>
+                                        3 productos
+                                    </td>
+
+                                    <td>
+                                        Efectivo
+                                    </td>
+
+                                    <td>
+
+                                        <span class="tag entrada">
+                                            Completada
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        #000422
+                                    </td>
+
+                                    <td>
+                                        10:48
+                                    </td>
+
+                                    <td>
+                                        1 producto
+                                    </td>
+
+                                    <td>
+                                        Tarjeta de Débito
+                                    </td>
+
+                                    <td>
+
+                                        <span class="tag entrada">
+                                            Completada
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        #000423
+                                    </td>
+
+                                    <td>
+                                        11:15
+                                    </td>
+
+                                    <td>
+                                        5 productos
+                                    </td>
+
+                                    <td>
+                                        Tarjeta de Crédito · 3 cuotas
+                                    </td>
+
+                                    <td>
+
+                                        <span class="tag entrada">
+                                            Completada
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- FOOTER -->
+
+                <footer class="footer">
+
+                    <span>
+                        RUDAFER · Sistema de Gestión Interna
+                    </span>
+
+                    <span>
+                        Sesión iniciada como empleado
+                    </span>
+
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- SCRIPTS OFICIALES -->
+    <script src="ventas.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUDAFER | Nuevo Producto</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="NuevoProducto.css">
+
+    <!-- Previene el parpadeo de modo claro a modo oscuro -->
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+    <style>
+        /* Estilos específicos para la sección dinámica de sucursales en el formulario */
+        .sucursales-stock-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background: var(--surface-2, #f8f9fa);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border, #e0e0e0);
+        }
+        .sucursal-stock-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border, #ddd);
+        }
+        .sucursal-stock-group:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .sucursal-stock-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary, #e67e22);
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+
+            <!-- LOGO -->
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- NAVEGACIÓN -->
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </span>
+                    <span>Inicio</span>
+                </a>
+
+                <a href="INVENTARIO.html" class="nav-item active">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h14v16H5z" />
+                            <path d="M8 8h8M8 12h8M8 16h5" />
+                        </svg>
+                    </span>
+                    <span>Inventario</span>
+                </a>
+
+                <a href="PEDIDOS.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 3h9l3 3v15H6z" />
+                            <path d="M15 3v4h4M9 11h6M9 15h6M9 7h3" />
+                        </svg>
+                    </span>
+                    <span>Pedidos</span>
+                </a>
+
+                <a href="MOVIMIENTOS.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M7 7h11l-2.5-2.5" />
+                            <path d="M17 17H6l2.5 2.5" />
+                            <path d="M18 7a6 6 0 0 0-6-4" />
+                            <path d="M6 17a6 6 0 0 0 6 4" />
+                        </svg>
+                    </span>
+                    <span>Movimientos</span>
+                </a>
+
+                <a href="REPORTES.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 19V9M12 19V5M19 19v-8" />
+                            <path d="M3 19h18" />
+                        </svg>
+                    </span>
+                    <span>Reportes</span>
+                </a>
+
+                <a href="ADMINISTRACION.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2 A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4 A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1-.1 1.6-1.6.1-.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h-.1a1.8 1.8 0 0 0-1.7.8z" />
+                        </svg>
+                    </span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <!-- ESTADO DEL SISTEMA -->
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+
+            <!-- TOPBAR (UNIFICADA) -->
+            <header class="topbar">
+
+                <!-- BUSCADOR -->
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m20 20-4-4" />
+                    </svg>
+                    <input type="search" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+
+                <!-- ACCIONES -->
+                <div class="topbar-actions">
+
+                    <!-- MODO OSCURO -->
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track">
+                            <span class="theme-knob"></span>
+                        </span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <!-- USUARIO CON SESIÓN Y CERRAR SESIÓN -->
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- CONTENIDO DE PÁGINA -->
+            <div class="page-content">
+
+                <!-- ENCABEZADO DE PÁGINA -->
+                <section class="page-heading">
+                    <div class="heading-left">
+                        <span class="eyebrow">INVENTARIO DE STOCK</span>
+                        <h2>Nuevo producto</h2>
+                        <p>Completa el formulario para registrar un nuevo producto y definir sus stocks por sucursal.</p>
+                    </div>
+                </section>
+
+                <!-- FORMULARIO DE PRODUCTO -->
+                <div class="form-container">
+                    <form id="productForm">
+
+                        <!-- CÓDIGO DE BARRAS -->
+                        <div class="form-group">
+                            <label for="codigo">Código de Barras</label>
+                            <input type="text" id="codigo" placeholder="Ej: 7791234567890" required autocomplete="off">
+                        </div>
+
+                        <!-- NOMBRE DEL PRODUCTO -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Producto</label>
+                            <input type="text" id="nombre" placeholder="Ej: Martillo Galponero 16oz" required autocomplete="off">
+                        </div>
+
+                        <!-- DESCRIPCIÓN -->
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <input type="text" id="descripcion" placeholder="Ej: Mango de fibra de vidrio anti-vibración" autocomplete="off">
+                        </div>
+
+                        <!-- MARCA Y CATEGORÍA (DESPLEGABLE) -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="marca">Marca</label>
+                                <input type="text" id="marca" placeholder="Ej: Stanley" required autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="idCategoria">Categoría</label>
+                                <select id="idCategoria" required>
+                                    <option value="" disabled selected>Seleccione una categoría</option>
+                                    <option value="1">Ferretería</option>
+                                    <option value="2">Pinturas</option>
+                                    <option value="3">Herramientas</option>
+                                    <option value="4">Sanitarios</option>
+                                    <option value="5">Corralón</option>
+                                    <option value="6">Electricidad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- PROVEEDOR -->
+                        <div class="form-group">
+                            <label for="idProveedor">Proveedor</label>
+                            <select id="idProveedor" required>
+                                <option value="" disabled selected>Cargando proveedores...</option>
+                            </select>
+                        </div>
+
+                        <!-- UBICACIÓN EN FERRETERÍA (ESTANTE Y FILA) -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="estante">Estante</label>
+                                <input type="text" id="estante" placeholder="Ej: A3" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="fila">Fila</label>
+                                <input type="text" id="fila" placeholder="Ej: 2" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <!-- PRECIOS -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="precioCompra">Precio de Compra ($)</label>
+                                <input type="number" step="0.01" id="precioCompra" placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="precioVenta">Precio de Venta ($)</label>
+                                <input type="number" step="0.01" id="precioVenta" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN DINÁMICA DE STOCKS POR SUCURSAL -->
+                        <div class="form-group">
+                            <label>Control de Stock e Inventario por Sucursal</label>
+                            <div id="contenedorSucursalesStock" class="sucursales-stock-container">
+                                <span style="color: var(--muted); font-size: 13px;">Cargando sucursales...</span>
+                            </div>
+                        </div>
+
+                        <!-- ACCIONES DEL FORMULARIO -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" onclick="window.location.href='INVENTARIO.html'">Cancelar</button>
+                            <button type="submit" class="btn-submit">Guardar Producto</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    <span>RUDAFER · Gestión Interna</span>
+                    <span>Última sincronización: hace un momento</span>
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- MODAL DE ÉXITO -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="checkmark-circle">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5" />
+                </svg>
+            </div>
+            <h2>¡Producto nuevo creado!</h2>
+            <p>Se ha registrado el producto y sus stocks en las sucursales.</p>
+            <button class="btn-submit" onclick="finalizarYSalir()">Continuar al Inventario</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DE PÁGINA -->
+    <script>
+        let listaSucursalesGlobal = [];
+
+        document.addEventListener("DOMContentLoaded", async function() {
+            await cargarSucursalesParaStock();
+            cargarProveedoresEnFormulario();
+        });
+
+        // 1. Cargar dinámicamente las sucursales y generar los campos de stock para cada una
+        async function cargarSucursalesParaStock() {
+            const contenedor = document.getElementById('contenedorSucursalesStock');
+            try {
+                const res = await fetch('http://localhost:8081/api/sucursales');
+                if (!res.ok) throw new Error('Error al conectar con el servidor');
+                const sucursales = await res.json();
+                
+                // Filtramos la opción "Vista General (Todas)" si viene con ID 0
+                listaSucursalesGlobal = sucursales.filter(s => s.id > 0);
+
+                if (listaSucursalesGlobal.length === 0) {
+                    contenedor.innerHTML = '<span style="color: var(--muted); font-size: 13px;">No hay sucursales registradas.</span>';
+                    return;
+                }
+
+                contenedor.innerHTML = '';
+                listaSucursalesGlobal.forEach(sucursal => {
+                    const divGroup = document.createElement('div');
+                    divGroup.className = 'sucursal-stock-group';
+                    divGroup.innerHTML = `
+                        <span class="sucursal-stock-title">📍 ${sucursal.nombre}</span>
+                        <div class="form-row" style="margin-top: 4px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="stockMin_${sucursal.id}" style="font-size: 12px;">Stock Mínimo</label>
+                                <input type="number" id="stockMin_${sucursal.id}" class="input-stock-min" data-sucursal="${sucursal.id}" value="5" min="0" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="stockAct_${sucursal.id}" style="font-size: 12px;">Stock Inicial</label>
+                                <input type="number" id="stockAct_${sucursal.id}" class="input-stock-act" data-sucursal="${sucursal.id}" value="0" min="0" required>
+                            </div>
+                        </div>
+                    `;
+                    contenedor.appendChild(divGroup);
+                });
+
+            } catch (e) {
+                console.error("Error al cargar sucursales:", e);
+                contenedor.innerHTML = '<span style="color: var(--muted); font-size: 13px;">Error al cargar las sucursales.</span>';
+            }
+        }
+
+        async function cargarProveedoresEnFormulario() {
+            const selectProv = document.getElementById('idProveedor');
+            try {
+                const res = await fetch('http://localhost:8081/api/proveedores');
+                if (!res.ok) throw new Error('Error del servidor: ' + res.status);
+                const proveedores = await res.json();
+
+                selectProv.innerHTML = '<option value="" disabled selected>Seleccione un proveedor</option>';
+                
+                if (proveedores.length === 0) {
+                    selectProv.innerHTML = '<option value="" disabled selected>No hay proveedores cargados</option>';
+                    return;
+                }
+
+                proveedores.forEach(p => {
+                    const idProv = p.id !== undefined ? p.id : (p.idProveedor !== undefined ? p.idProveedor : p.ID_Proveedor);
+                    selectProv.innerHTML += `<option value="${idProv}">${p.nombre}</option>`;
+                });
+            } catch (err) {
+                console.error('No se pudieron cargar los proveedores:', err);
+                selectProv.innerHTML = '<option value="" disabled selected>Error: Revisa la consola (F12)</option>';
+            }
+        }
+
+        // 2. Envío del formulario enviando el arreglo de stocks por sucursal
+        const form = document.getElementById('productForm');
+        const overlay = document.getElementById('successOverlay');
+
+        if (form && overlay) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Recopilar los valores de stock mínimo y stock actual de cada sucursal generada
+                const sucursalesStock = [];
+                listaSucursalesGlobal.forEach(sucursal => {
+                    const inputMin = document.getElementById(`stockMin_${sucursal.id}`);
+                    const inputAct = document.getElementById(`stockAct_${sucursal.id}`);
+                    
+                    sucursalesStock.push({
+                        idSucursal: sucursal.id,
+                        stockMinimo: inputMin ? parseInt(inputMin.value) || 5 : 5,
+                        stockActual: inputAct ? parseInt(inputAct.value) || 0 : 0
+                    });
+                });
+
+                const nuevoProducto = {
+                    codigo: document.getElementById('codigo').value,
+                    nombre: document.getElementById('nombre').value,
+                    descripcion: document.getElementById('descripcion').value || '',
+                    marca: document.getElementById('marca').value,
+                    idProveedor: parseInt(document.getElementById('idProveedor').value) || 0,
+                    estante: document.getElementById('estante').value || '',
+                    fila: document.getElementById('fila').value || '',
+                    precioCompra: parseFloat(document.getElementById('precioCompra').value) || 0.0,
+                    precioVenta: parseFloat(document.getElementById('precioVenta').value) || 0.0,
+                    idCategoria: parseInt(document.getElementById('idCategoria').value) || 1,
+                    sucursalesStock: sucursalesStock // <--- Se envía el listado completo para que el backend lo guarde por sucursal
+                };
+
+                try {
+                    const respuesta = await fetch('http://localhost:8081/api/productos', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(nuevoProducto)
+                    });
+
+                    if (respuesta.ok) {
+                        overlay.classList.add('visible');
+                    } else {
+                        alert('Error al guardar el producto en la base de datos.');
+                    }
+                } catch (error) {
+                    console.error('Error de conexión:', error);
+                    alert('No se pudo establecer conexión con el servidor Java.');
+                }
+            });
+        }
+
+        function finalizarYSalir() {
+            window.location.href = 'INVENTARIO.html';
+        }
+
+        // ATAJO CTRL + K
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const search = document.querySelector('.search-box input');
+                if (search) search.focus();
+            }
+        });
+    </script>
+    <!-- SCRIPT DE AUTENTICACIÓN Y CONTROL DE ACCESO -->
+    <script src="auth.js"></script>
+</body>
+
+</html>

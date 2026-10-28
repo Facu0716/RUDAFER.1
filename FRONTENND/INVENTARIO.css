@@ -1,0 +1,1447 @@
+/* =========================================================
+   RUDAFER
+   INVENTARIO — TIPOGRAFÍA LEGIBLE
+   ========================================================= */
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.inventory-heading {
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 28px;
+
+}
+
+
+.inventory-heading h2 {
+
+    color: var(--text);
+
+    font-size: 34px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+
+}
+
+
+.inventory-heading p {
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   BOTÓN NUEVO PRODUCTO
+   ========================================================= */
+
+.new-product-button {
+
+    height: 46px;
+
+    padding: 0 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            110deg,
+            var(--orange),
+            #f59b20
+        );
+
+    border: 0;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(244, 123, 32, .22);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease;
+
+}
+
+
+.new-product-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 27px
+        rgba(244, 123, 32, .28);
+
+}
+
+
+.plus-icon {
+
+    width: 22px;
+
+    height: 22px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 6px;
+
+    background:
+        rgba(255,255,255,.18);
+
+    font-size: 19px;
+
+    line-height: 1;
+
+}
+
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+.inventory-filters {
+
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(280px, 1.7fr)
+        repeat(3, minmax(170px, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+
+}
+
+
+/* =========================================================
+   BUSCADOR
+   ========================================================= */
+
+.filter-search {
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 13px;
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    color:
+        var(--muted);
+
+    transition: .25s ease;
+
+}
+
+
+.filter-search:focus-within {
+
+    background:
+        var(--surface);
+
+    border-color:
+        rgba(244,123,32,.55);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(244,123,32,.08);
+
+}
+
+
+.filter-search svg {
+
+    width: 19px;
+
+    height: 19px;
+
+    flex-shrink: 0;
+
+}
+
+
+.filter-search input {
+
+    width: 100%;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color:
+        var(--text);
+
+    font-size: 13px;
+
+}
+
+
+.filter-search input::placeholder {
+
+    color:
+        var(--muted);
+
+}
+
+
+/* =========================================================
+   SELECTORES
+   ========================================================= */
+
+.filter-select {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 6px;
+
+}
+
+
+.filter-select label {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+    text-transform: uppercase;
+
+}
+
+
+.filter-select select {
+
+    width: 100%;
+
+    height: 38px;
+
+    padding: 0 10px;
+
+    color:
+        var(--text);
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: 0;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.filter-select select:focus {
+
+    border-color:
+        rgba(244,123,32,.5);
+
+}
+
+
+/* =========================================================
+   CABECERA DEL CATÁLOGO
+   ========================================================= */
+
+.catalog-header {
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 13px;
+
+}
+
+
+.catalog-header > div:first-child {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 10px;
+
+}
+
+
+.catalog-header strong {
+
+    color:
+        var(--text);
+
+    font-size: 18px;
+
+    letter-spacing: -.2px;
+
+}
+
+
+.catalog-header span {
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+.catalog-options {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.catalog-options > span {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+.catalog-options select {
+
+    height: 34px;
+
+    padding: 0 10px;
+
+    color:
+        var(--text-soft);
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: 0;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.inventory-table-panel {
+
+    overflow: hidden;
+
+}
+
+
+.inventory-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+.inventory-table {
+
+    width: 100%;
+
+    min-width: 1100px;
+
+    border-collapse: collapse;
+
+}
+
+
+/* ENCABEZADOS */
+
+.inventory-table th {
+
+    height: 50px;
+
+    padding:
+        0 15px;
+
+    vertical-align: middle;
+
+    color:
+        var(--muted);
+
+    background:
+        var(--surface-2);
+
+    border-bottom:
+        1px solid var(--border);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .6px;
+
+    text-align: left;
+
+}
+
+
+/* CELDAS */
+
+.inventory-table td {
+
+    height: 82px;
+
+    padding:
+        11px 15px;
+
+    color:
+        var(--text-soft);
+
+    border-bottom:
+        1px solid var(--border-soft);
+
+    font-size: 13px;
+
+    vertical-align: middle;
+
+}
+
+
+.inventory-table tbody tr {
+
+    transition:
+        background .2s ease;
+
+}
+
+
+.inventory-table tbody tr:hover {
+
+    background:
+        var(--orange-light);
+
+}
+
+
+.inventory-table tbody tr:last-child td {
+
+    border-bottom: 0;
+
+}
+
+
+/* =========================================================
+   CÓDIGO
+   ========================================================= */
+
+.product-code {
+
+    color:
+        var(--text-soft);
+
+    background:
+        var(--surface-3);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 6px;
+
+    padding:
+        6px 8px;
+
+    font-family:
+        monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   PRODUCTO
+   ========================================================= */
+
+.catalog-product {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 250px;
+
+}
+
+
+.product-image {
+
+    width: 46px;
+
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    color:
+        var(--orange-dark);
+
+    background:
+        var(--orange-light);
+
+    border:
+        1px solid
+        rgba(244,123,32,.14);
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+}
+
+
+.product-image.cement {
+
+    color:
+        #a77c13;
+
+    background:
+        var(--yellow-light);
+
+}
+
+
+.product-image.pvc {
+
+    color:
+        #3477a8;
+
+    background:
+        rgba(52,119,168,.09);
+
+}
+
+
+.product-image.paint {
+
+    color:
+        #a953a0;
+
+    background:
+        rgba(169,83,160,.09);
+
+}
+
+
+.product-image.cable {
+
+    color:
+        #4e5963;
+
+    background:
+        var(--surface-3);
+
+}
+
+
+.catalog-product strong,
+.catalog-product span {
+
+    display: block;
+
+}
+
+
+.catalog-product strong {
+
+    color:
+        var(--text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1.35;
+
+}
+
+
+.catalog-product span {
+
+    margin-top: 5px;
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.3;
+
+}
+
+
+/* =========================================================
+   STOCK
+   ========================================================= */
+
+.stock-number {
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+}
+
+
+.stock-number.good {
+
+    color:
+        var(--stock-green);
+
+}
+
+
+.stock-number.low {
+
+    color:
+        var(--stock-yellow);
+
+}
+
+
+.stock-number.critical {
+
+    color:
+        var(--stock-red);
+
+}
+
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding:
+        6px 9px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+}
+
+
+.status-badge.success {
+
+    color:
+        var(--success);
+
+    background:
+        rgba(41,153,90,.10);
+
+}
+
+
+.status-badge.warning {
+
+    color:
+        var(--warning);
+
+    background:
+        rgba(215,154,5,.11);
+
+}
+
+
+.status-badge.danger {
+
+    color:
+        var(--danger);
+
+    background:
+        rgba(220,73,48,.10);
+
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.action-buttons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.action-button {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    background:
+        var(--surface);
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease;
+
+}
+
+
+.action-button svg {
+
+    width: 17px;
+
+    height: 17px;
+
+}
+
+
+.action-button.edit {
+
+    color:
+        var(--text-soft);
+
+}
+
+
+.action-button.edit:hover {
+
+    color:
+        var(--orange);
+
+    background:
+        var(--orange-light);
+
+    border-color:
+        rgba(244,123,32,.25);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.action-button.delete {
+
+    color:
+        var(--text-soft);
+
+}
+
+
+.action-button.delete:hover {
+
+    color:
+        var(--danger);
+
+    background:
+        rgba(220,73,48,.08);
+
+    border-color:
+        rgba(220,73,48,.2);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/* =========================================================
+   PAGINACIÓN
+   ========================================================= */
+
+.inventory-pagination {
+
+    min-height: 70px;
+
+    padding:
+        0 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    border-top:
+        1px solid var(--border);
+
+}
+
+
+.pagination-info {
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+.pagination-buttons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+}
+
+
+.pagination-button {
+
+    min-width: 34px;
+
+    height: 34px;
+
+    padding: 0 8px;
+
+    display: grid;
+
+    place-items: center;
+
+    color:
+        var(--text-soft);
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+
+}
+
+
+.pagination-button:hover {
+
+    color:
+        var(--orange);
+
+    border-color:
+        rgba(244,123,32,.35);
+
+}
+
+
+.pagination-button.active {
+
+    color: #fff;
+
+    background:
+        var(--orange);
+
+    border-color:
+        var(--orange);
+
+}
+
+
+.pagination-button.disabled {
+
+    opacity: .4;
+
+    cursor: not-allowed;
+
+}
+
+
+.pagination-dots {
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+
+    padding:
+        0 3px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .inventory-filters {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .filter-search {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .inventory-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .new-product-button {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+
+    .catalog-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .catalog-options {
+
+        width: 100%;
+
+        justify-content: space-between;
+
+    }
+
+
+    .inventory-pagination {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding:
+            17px 20px;
+
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .inventory-filters {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .filter-search {
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .catalog-header > div:first-child {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+
+    }
+
+
+    .pagination-buttons {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+}
+/* =========================================================
+   SOPORTE MODO OSCURO INSTANTÁNEO EN INVENTARIO
+   ========================================================= */
+
+.inventory-filters,
+.inventory-table-panel,
+.catalog-options select,
+.filter-select select,
+.action-button,
+.pagination-button {
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+/* Fila de tabla al pasar el mouse en modo oscuro */
+html.dark-mode .inventory-table tbody tr:hover {
+    background: var(--surface-3);
+}
+/* =========================================================
+   MODAL DE EDICIÓN - ESTILOS UNIFICADOS RUDAFER
+   ========================================================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    max-height: 90vh;
+    overflow-y: auto;
+    color: var(--text);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.modal-header h3 {
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.modal-header button {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-header button:hover {
+    background: rgba(220, 73, 48, 0.1);
+    color: var(--danger);
+    border-color: rgba(220, 73, 48, 0.3);
+}
+
+.modal-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-form .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-form label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.modal-form input, 
+.modal-form select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: 0;
+    font-size: 13px;
+    font-weight: 600;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.modal-form input:focus, 
+.modal-form select:focus {
+    border-color: rgba(244, 123, 32, .55);
+    box-shadow: 0 0 0 4px rgba(244, 123, 32, .08);
+    background: var(--surface);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 25px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+}
+
+.modal-actions .btn-cancel {
+    height: 42px;
+    padding: 0 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.modal-actions .btn-cancel:hover {
+    background: var(--surface-3);
+}
+
+.modal-actions .btn-submit {
+    height: 42px;
+    padding: 0 20px;
+    background: linear-gradient(110deg, var(--orange), #f59b20);
+    border: 0;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(244, 123, 32, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-actions .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(244, 123, 32, 0.28);
+}
+/* =========================================================
+   MODAL DE EDICIÓN - SOPORTE MODO OSCURO Y CLARO
+   ========================================================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+    color: var(--text);
+}
+
+/* Forzar compatibilidad si el contenedor depende de la clase del HTML en modo oscuro */
+html.dark-mode .modal-card {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.modal-header h3 {
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.modal-header button {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-header button:hover {
+    background: rgba(220, 73, 48, 0.1);
+    color: var(--danger);
+    border-color: rgba(220, 73, 48, 0.3);
+}
+
+.modal-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-form .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-form label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.modal-form input, 
+.modal-form select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: 0;
+    font-size: 13px;
+    font-weight: 600;
+    transition: border-color .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+
+.modal-form input:focus, 
+.modal-form select:focus {
+    border-color: rgba(244, 123, 32, .55);
+    box-shadow: 0 0 0 4px rgba(244, 123, 32, .08);
+    background: var(--surface);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 25px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+}
+
+.modal-actions .btn-cancel {
+    height: 42px;
+    padding: 0 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.modal-actions .btn-cancel:hover {
+    background: var(--surface-3);
+}
+
+.modal-actions .btn-submit {
+    height: 42px;
+    padding: 0 20px;
+    background: linear-gradient(110deg, var(--orange), #f59b20);
+    border: 0;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(244, 123, 32, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-actions .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(244, 123, 32, 0.28);
+}

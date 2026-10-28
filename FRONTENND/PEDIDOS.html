@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUDAFER - Pedidos">
+    <title>RUDAFER | Pedidos</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="PEDIDOS.css">
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+    <style>
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65); z-index: 1000; justify-content: center; align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-card {
+            background: var(--surface); border: 1px solid var(--border); padding: 30px; border-radius: 14px;
+            width: 100%; max-width: 950px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; color: var(--text);
+        }
+        html.dark-mode .modal-card { background: var(--surface); border-color: var(--border); color: var(--text); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .modal-header h3 { color: var(--text); font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+        .modal-header button { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; font-size: 14px; transition: background 0.2s ease, color 0.2s ease; }
+        .modal-header button:hover { background: rgba(220, 73, 48, 0.1); color: var(--danger); border-color: rgba(220, 73, 48, 0.3); }
+        .modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; border-top: 1px solid var(--border); padding-top: 18px; }
+        .modal-actions .btn-cancel { height: 42px; padding: 0 18px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-soft); border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s ease; }
+        .modal-actions .btn-cancel:hover { background: var(--surface-3); }
+        .modal-actions .btn-submit { height: 42px; padding: 0 20px; background: linear-gradient(110deg, var(--orange), #f59b20); border: 0; color: #fff; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 15px rgba(244, 123, 32, 0.2); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .modal-actions .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(244, 123, 32, 0.28); }
+        
+        .order-action.check { background: rgba(39, 174, 96, 0.15); color: #27ae60; border: 1px solid rgba(39, 174, 96, 0.3); }
+        .order-action.check:hover { background: #27ae60; color: #fff; }
+        .order-status.completed { background: rgba(41, 128, 185, 0.15); color: #2980b9; border: 1px solid rgba(41, 128, 185, 0.3); }
+        .type-badge.transfer { background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.3); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block; }
+        .type-badge.purchase { background: rgba(241, 196, 15, 0.15); color: #d35400; border: 1px solid rgba(241, 196, 15, 0.3); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block; }
+    </style>
+</head>
+
+<body>
+
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></span>
+                    <span>Inicio</span>
+                </a>
+                <a href="INVENTARIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+                    <span>Inventario</span>
+                </a>
+                <a href="PEDIDOS.html" class="nav-item active">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6M9 7h3"/></svg></span>
+                    <span>Pedidos</span>
+                </a>
+                <a href="MOVIMIENTOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 7h11l-2.5-2.5"/><path d="M17 17H6l2.5 2.5"/><path d="M18 7a6 6 0 0 0-6-4"/><path d="M6 17a6 6 0 0 0 6 4"/></svg></span>
+                    <span>Movimientos</span>
+                </a>
+                <a href="REPORTES.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-8"/><path d="M3 19h18"/></svg></span>
+                    <span>Reportes</span>
+                </a>
+                <a href="ADMINISTRACION.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1.1 1.6 1.6-.1.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h-.1a1.8 1.8 0 0 0-1.7.8z"/></svg></span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" id="busqueda-global" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+                <div class="topbar-actions">
+                    <!-- Selector Global de Sucursal con Vista General (0) -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+                        <label for="selectSucursalGlobal" style="font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL:</label>
+                        <select id="selectSucursalGlobal" class="form-control" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold; font-size: 13px;" onchange="aplicarFiltros()">
+                            <option value="0">🌐 Vista General (Todas)</option>
+                            <option value="1">Sucursal Central</option>
+                            <option value="2">Sucursal 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track"><span class="theme-knob"></span></span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content pedidos-page">
+                <section class="pedidos-heading">
+                    <div>
+                        <span class="eyebrow">GESTIÓN DE PEDIDOS Y TRASPASOS</span>
+                        <h2>Lista de registros</h2>
+                        <p>Administrá las compras a proveedores y las transferencias de stock entre sucursales.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="new-order-button" id="btnTransferirStock" type="button" style="background: var(--surface-2); border: 1px solid var(--border); color: var(--text);">
+                            <span style="font-size: 16px;">⇄</span>
+                            Transferir Stock
+                        </button>
+                        <button class="new-order-button" id="nuevoPedido" type="button">
+                            <span class="plus-icon">+</span>
+                            Nuevo pedido
+                        </button>
+                    </div>
+                </section>
+
+                <!-- FILTROS -->
+                <section class="orders-filter-card">
+                    <div class="order-filter">
+                        <label for="filtroTipo">TIPO</label>
+                        <select id="filtroTipo">
+                            <option value="todos">Todos los tipos</option>
+                            <option value="compra">Compra</option>
+                            <option value="transferencia">Transferencia</option>
+                        </select>
+                    </div>
+                    <div class="order-filter">
+                        <label for="filtroEstado">ESTADO</label>
+                        <select id="filtroEstado">
+                            <option value="todos">Todos los estados</option>
+                            <option value="realizado">Realizado</option>
+                            <option value="entregado">Entregado</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="order-filter">
+                        <label for="fechaDesde">DESDE</label>
+                        <input type="date" id="fechaDesde">
+                    </div>
+                    <div class="order-filter">
+                        <label for="fechaHasta">HASTA</label>
+                        <input type="date" id="fechaHasta">
+                    </div>
+                    <button type="button" class="clear-filters" id="limpiarFiltros">Limpiar filtros</button>
+                </section>
+
+                <!-- TABLA -->
+                <section class="orders-section">
+                    <div class="orders-header">
+                        <div>
+                            <h3>Pedidos</h3>
+                            <span id="cantidadPedidos">0 pedidos registrados</span>
+                        </div>
+                        <div class="orders-header-right">
+                            <span>Ordenar por</span>
+                            <select id="ordenPedidos">
+                                <option value="recientes">Más recientes</option>
+                                <option value="antiguos">Más antiguos</option>
+                                <option value="mayor">Mayor total</option>
+                                <option value="menor">Menor total</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="orders-table-card">
+                        <div class="orders-table-wrapper">
+                            <table class="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>N° PEDIDO</th>
+                                        <th>FECHA</th>
+                                        <th>TIPO</th>
+                                        <th>PROVEEDOR / ORIGEN</th>
+                                        <th>ESTADO</th>
+                                        <th>TOTAL</th>
+                                        <th>ITEMS</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaPedidos">
+                                    <tr>
+                                        <td colspan="8" style="text-align: center; padding: 30px; color: var(--muted);">
+                                            No hay pedidos registrados. Hacé clic en "Nuevo pedido" para crear uno.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="orders-pagination">
+                            <span class="pagination-info" id="infoPaginacion">Mostrando 0 pedidos</span>
+                            <div class="pagination-buttons">
+                                <button class="pagination-button disabled" type="button">← Anterior</button>
+                                <button class="pagination-button active" type="button">1</button>
+                                <button class="pagination-button disabled" type="button">Siguiente →</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL NUEVO PEDIDO -->
+    <div class="modal-overlay" id="modalNuevoPedido">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Crear Nuevo Pedido a Proveedor</h3>
+                <button type="button" onclick="cerrarModalNuevoPedido()">✕</button>
+            </div>
+                
+            <div style="margin-bottom: 15px;">
+                <label for="selectSucursalPedidoModal" style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: bold; color: var(--muted);">1. SELECCIONAR SUCURSAL DESTINO:</label>
+                <select id="selectSucursalPedidoModal" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;">
+                    <option value="">Cargando sucursales...</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="selectProveedorModal" style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: bold; color: var(--muted);">2. SELECCIONAR PROVEEDOR:</label>
+                <select id="selectProveedorModal" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;" disabled>
+                    <option value="">-- Primero seleccioná una sucursal --</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <input type="search" id="buscadorModalPedido" placeholder="Buscar producto por código, nombre o marca..." 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;" disabled>
+            </div>
+
+            <div class="orders-table-wrapper" style="max-height: 400px; overflow-y: auto;">
+                <table class="orders-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>CÓDIGO</th>
+                            <th>PRODUCTO</th>
+                            <th>MARCA</th>
+                            <th>STOCK</th>
+                            <th>ESTADO</th>
+                            <th>CANTIDAD A PEDIR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaModalProductos">
+                        <tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná un proveedor arriba para ver sus productos.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions">
+                <span id="resumenSeleccionModal" style="font-size: 12px; color: var(--muted);">Indicá las cantidades de los productos que necesites pedir.</span>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn-cancel" onclick="cerrarModalNuevoPedido()">Cancelar</button>
+                    <button type="button" class="btn-submit" onclick="generarMensajeWhatsAppPedido()">Copiar Mensaje y Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TRANSFERENCIA DE STOCK -->
+    <div class="modal-overlay" id="modalTransferencia">
+        <div class="modal-card" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Transferencia de Stock entre Sucursales</h3>
+                <button type="button" onclick="cerrarModalTransferencia()">✕</button>
+            </div>
+                
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL ORIGEN:</label>
+                    <select id="selectSucursalOrigen" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;">
+                        <option value="">Cargando...</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL DESTINO:</label>
+                    <select id="selectSucursalDestino" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;">
+                        <option value="">Cargando...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <input type="search" id="buscadorModalTransferencia" placeholder="Buscar producto en el stock de origen..." 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-size: 13px; font-weight: 600; outline: none;" disabled>
+            </div>
+
+            <div class="orders-table-wrapper" style="max-height: 350px; overflow-y: auto;">
+                <table class="orders-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>CÓDIGO</th>
+                            <th>PRODUCTO</th>
+                            <th>STOCK ORIGEN</th>
+                            <th>CANTIDAD A TRANSFERIR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaModalTransferenciaProductos">
+                        <tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná la sucursal de origen primero.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions">
+                <span id="resumenTransferenciaModal" style="font-size: 12px; color: var(--muted);">Indicá las cantidades a transferir.</span>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn-cancel" onclick="cerrarModalTransferencia()">Cancelar</button>
+                    <button type="button" class="btn-submit" onclick="confirmarTransferenciaStock()">Ejecutar Transferencia</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR RECEPCIÓN E INGRESO DE STOCK -->
+    <div class="modal-overlay" id="modalRecepcionPedido">
+        <div class="modal-card" style="max-width: 850px;">
+            <div class="modal-header">
+                <h3>Recepción de Pedido (<span id="modalIdPedido">PED-0000</span>)</h3>
+                <button type="button" onclick="cerrarModalRecepcion()">✕</button>
+            </div>
+
+            <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-soft);">
+                Verificá la llegada del pedido. Podés modificar las cantidades recibidas y actualizar los <strong>precios de compra unitarios</strong> en caso de que hayan llegado con valores diferentes.
+            </p>
+
+            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
+                    <input type="radio" name="tipoRecepcion" value="completo" checked onchange="toggleModificacionCantidades(false)">
+                    Llegó Completo y Precios Originales
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
+                    <input type="radio" name="tipoRecepcion" value="cambios" onchange="toggleModificacionCantidades(true)">
+                    Llegó con Cambios (Cantidades o Precios)
+                </label>
+            </div>
+
+            <div class="orders-table-wrapper" style="max-height: 350px; overflow-y: auto;">
+                <table class="orders-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>PRODUCTO</th>
+                            <th>CANT. PEDIDA</th>
+                            <th>CANT. RECIBIDA</th>
+                            <th>PRECIO COMPRA ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaRecepcionProductos"></tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="cerrarModalRecepcion()">Cancelar</button>
+                <button type="button" class="btn-submit" onclick="procesarIngresoStockEfectivo()">Confirmar y Actualizar Inventario</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                const bg = document.getElementById("busqueda-global");
+                if (bg) bg.focus();
+            }
+        });
+
+        let catalogoProductosGlobal = [];
+        let catalogoTransferenciaGlobal = [];
+        let pedidoActualEnRecepcion = null;
+        let historialPedidosGlobal = [];
+
+        // Carga inicial de pedidos desde la base de datos al abrir la página
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarHistorialPedidosBD();
+        });
+
+        async function cargarHistorialPedidosBD() {
+            const tbody = document.getElementById("tablaPedidos");
+            
+            try {
+                const response = await fetch('http://localhost:8081/api/pedidos/historial');
+                if (!response.ok) throw new Error('Error al conectar con el historial');
+                
+                const historial = await response.json();
+                historialPedidosGlobal = historial;
+                
+                if (!historial || historial.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 30px; color: var(--muted);">
+                                No hay pedidos registrados. Hacé clic en "Nuevo pedido" para crear uno.
+                            </td>
+                        </tr>
+                    `;
+                    actualizarContadorPedidos();
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                
+                historial.forEach(h => {
+                    let cantItems = 0;
+                    try {
+                        const parsedItems = JSON.parse(h.detalle);
+                        if (Array.isArray(parsedItems)) {
+                            cantItems = parsedItems.length;
+                        }
+                    } catch (e) {
+                        cantItems = 1;
+                    }
+
+                    const idPedidoFicticio = "PED-00" + h.id;
+                    const fechaFormateada = h.fecha ? new Date(h.fecha).toLocaleDateString("es-AR") : new Date().toLocaleDateString("es-AR");
+                    
+                    const estadoBD = h.estado ? h.estado.toLowerCase() : 'realizado';
+                    let claseEstado = "order-status completed";
+                    let textoEstado = "Realizado";
+
+                    if (estadoBD === "entregado" || estadoBD === "completado") {
+                        claseEstado = "order-status delivered";
+                        textoEstado = "Entregado";
+                    } else if (estadoBD === "cancelado") {
+                        claseEstado = "order-status cancelled";
+                        textoEstado = "Cancelado";
+                    }
+
+                    // Lectura dinámica y correcta del tipo real (compra o transferencia)
+                    const tipoPedido = (h.tipo || "compra").toLowerCase();
+                    const esTransferencia = tipoPedido === "transferencia";
+                    const textoTipo = esTransferencia ? "Transferencia" : "Compra";
+                    const claseTipo = esTransferencia ? "type-badge transfer" : "type-badge purchase";
+
+                    const totalFormateado = "$" + (h.total || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    const tr = document.createElement("tr");
+                    tr.dataset.id = idPedidoFicticio;
+                    tr.dataset.idHistorial = h.id;
+                    tr.dataset.tipo = tipoPedido;
+                    tr.dataset.estado = estadoBD;
+                    tr.dataset.sucursal = h.idSucursal || 1;
+                    tr.dataset.origen = h.idSucursalOrigen || 0;
+                    tr.dataset.destino = h.idSucursalDestino || 0;
+
+                    tr.innerHTML = `
+                        <td><span class="order-number">${idPedidoFicticio}</span></td>
+                        <td>${fechaFormateada}</td>
+                        <td><span class="${claseTipo}">${textoTipo}</span></td>
+                        <td><div class="supplier-cell"><strong>${h.proveedor || 'Proveedor General'}</strong><span>${h.nombreSucursal || 'Sucursal Central'}</span></div></td>
+                        <td><span class="${claseEstado}">${textoEstado}</span></td>
+                        <td><strong class="order-total">${totalFormateado}</strong></td>
+                        <td>${cantItems} ítems</td>
+                        <td>
+                            <div class="order-actions">
+                                ${estadoBD === 'realizado' && !esTransferencia ? `
+                                <button class="order-action check" type="button" title="Marcar como recibido / confirmar ingreso" onclick="abrirModalRecepcion(${h.id}, '${idPedidoFicticio}')">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </button>` : ''}
+                                <button class="order-action cancel" type="button" title="Cancelar pedido" onclick="cancelarPedidoFila(this)">
+                                    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                aplicarFiltros();
+
+            } catch (err) {
+                console.error("Error al cargar el historial desde Java:", err);
+            }
+        }
+
+        // Lógica del modal de Transferencia de Stock
+        document.getElementById("btnTransferirStock").addEventListener("click", async function () {
+            document.getElementById("modalTransferencia").classList.add("active");
+            await cargarSucursalesTransferencia();
+        });
+
+        function cerrarModalTransferencia() {
+            document.getElementById("modalTransferencia").classList.remove("active");
+            document.getElementById("selectSucursalOrigen").value = "";
+            document.getElementById("selectSucursalDestino").value = "";
+            document.getElementById("tablaModalTransferenciaProductos").innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná la sucursal de origen primero.</td></tr>`;
+            document.getElementById("buscadorModalTransferencia").disabled = true;
+            document.getElementById("buscadorModalTransferencia").value = "";
+        }
+
+        async function cargarSucursalesTransferencia() {
+            const selectOrig = document.getElementById("selectSucursalOrigen");
+            const selectDest = document.getElementById("selectSucursalDestino");
+            selectOrig.innerHTML = `<option value="">Cargando...</option>`;
+            selectDest.innerHTML = `<option value="">Cargando...</option>`;
+
+            try {
+                const res = await fetch('http://localhost:8081/api/sucursales');
+                const sucursales = await res.json();
+                
+                let optionsHtml = `<option value="">-- Seleccioná sucursal --</option>`;
+                sucursales.forEach(s => {
+                    if (s.id !== 0) {
+                        optionsHtml += `<option value="${s.id}">${s.nombre}</option>`;
+                    }
+                });
+
+                selectOrig.innerHTML = optionsHtml;
+                selectDest.innerHTML = optionsHtml;
+            } catch (err) {
+                console.error("Error al cargar sucursales para transferencia:", err);
+            }
+        }
+
+        document.getElementById("selectSucursalOrigen").addEventListener("change", async function() {
+            const idSucursal = this.value;
+            const buscador = document.getElementById("buscadorModalTransferencia");
+            const tbody = document.getElementById("tablaModalTransferenciaProductos");
+
+            if (!idSucursal) {
+                buscador.disabled = true;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná la sucursal de origen primero.</td></tr>`;
+                return;
+            }
+
+            buscador.disabled = false;
+            try {
+                const res = await fetch(`http://localhost:8081/api/productos?idSucursal=${idSucursal}`);
+                catalogoTransferenciaGlobal = await res.json();
+                renderizarProductosTransferencia("");
+            } catch (err) {
+                console.error("Error al cargar stock de origen:", err);
+            }
+        });
+
+        document.getElementById("buscadorModalTransferencia").addEventListener("input", function() {
+            renderizarProductosTransferencia(this.value.toLowerCase().trim());
+        });
+
+        function renderizarProductosTransferencia(filtro) {
+            const tbody = document.getElementById("tablaModalTransferenciaProductos");
+            let filtrados = catalogoTransferenciaGlobal.filter(p => {
+                const codigo = (p.codigo || "").toLowerCase();
+                const nombre = (p.nombre || "").toLowerCase();
+                return !filtro || codigo.includes(filtro) || nombre.includes(filtro);
+            });
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--muted);">No hay productos con stock en esta sucursal.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = "";
+            filtrados.forEach(p => {
+                const stock = parseInt(p.stock || 0);
+                tbody.innerHTML += `
+                    <tr>
+                        <td><span class="order-number">${p.codigo || "-"}</span></td>
+                        <td><strong>${p.nombre}</strong></td>
+                        <td><strong>${stock} u.</strong></td>
+                        <td>
+                            <input type="number" class="input-cant-traspaso" 
+                                data-id="${p.idProducto}" 
+                                data-stock-max="${stock}"
+                                value="0" min="0" max="${stock}" placeholder="0"
+                                style="width: 75px; height: 35px; text-align: center; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold;">
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function confirmarTransferenciaStock() {
+            const idOrigen = document.getElementById("selectSucursalOrigen").value;
+            const idDestino = document.getElementById("selectSucursalDestino").value;
+
+            if (!idOrigen || !idDestino) {
+                alert("Seleccioná la sucursal de origen y la de destino.");
+                return;
+            }
+            if (idOrigen === idDestino) {
+                alert("La sucursal de origen y destino no pueden ser la misma.");
+                return;
+            }
+
+            const inputs = document.querySelectorAll(".input-cant-traspaso");
+            let itemsTraspaso = [];
+
+            try {
+                inputs.forEach(input => {
+                    const cant = parseInt(input.value) || 0;
+                    const stockMax = parseInt(input.dataset.stockMax) || 0;
+                    if (cant > 0) {
+                        if (cant > stockMax) {
+                            alert(`Estás intentando transferir más cantidad de la disponible en stock.`);
+                            throw new Error("Stock superado");
+                        }
+                        itemsTraspaso.push({
+                            idProducto: parseInt(input.dataset.id),
+                            cantidad: cant
+                        });
+                    }
+                });
+            } catch(e) {
+                return;
+            }
+
+            if (itemsTraspaso.length === 0) {
+                alert("Ingresá al menos una cantidad mayor a 0 para transferir.");
+                return;
+            }
+
+            const datosTransferencia = {
+                idSucursalOrigen: parseInt(idOrigen),
+                idSucursalDestino: parseInt(idDestino),
+                items: itemsTraspaso
+            };
+
+            try {
+                const res = await fetch('http://localhost:8081/api/transferencias', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosTransferencia)
+                });
+
+                const data = await res.json();
+                if (res.ok && data.exito) {
+                    alert("¡Transferencia realizada con éxito!");
+                    cerrarModalTransferencia();
+                    cargarHistorialPedidosBD();
+                } else {
+                    alert("Error: " + (data.mensaje || "No se pudo procesar la transferencia."));
+                }
+            } catch (err) {
+                console.error("Error al enviar transferencia:", err);
+            }
+        }
+
+        // 1. Al hacer clic en "Nuevo pedido", inicializamos cargando sucursales
+        document.getElementById("nuevoPedido").addEventListener("click", async function () {
+            const modal = document.getElementById("modalNuevoPedido");
+            if (modal) modal.classList.add("active");
+            try {
+                await cargarSucursalesParaModal();
+                const selectProv = document.getElementById("selectProveedorModal");
+                if (selectProv) {
+                    selectProv.innerHTML = `<option value="">-- Primero seleccioná una sucursal --</option>`;
+                    selectProv.disabled = true;
+                }
+            } catch (err) {
+                console.error("Error al inicializar modal:", err);
+            }
+        });
+
+        function cerrarModalNuevoPedido() {
+            const modal = document.getElementById("modalNuevoPedido");
+            if (modal) modal.classList.remove("active");
+            
+            const selectProv = document.getElementById("selectProveedorModal");
+            if (selectProv) {
+                selectProv.value = "";
+                selectProv.disabled = true;
+            }
+            
+            const selectSuc = document.getElementById("selectSucursalPedidoModal");
+            if (selectSuc) selectSuc.value = "";
+            
+            const tbody = document.getElementById("tablaModalProductos");
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná un proveedor arriba para ver sus productos.</td></tr>`;
+            }
+            
+            const buscador = document.getElementById("buscadorModalPedido");
+            if (buscador) {
+                buscador.disabled = true;
+                buscador.value = "";
+            }
+        }
+
+        async function cargarSucursalesParaModal() {
+            const selectSuc = document.getElementById("selectSucursalPedidoModal");
+            if (!selectSuc) return;
+
+            selectSuc.innerHTML = `<option value="">Cargando sucursales...</option>`;
+            try {
+                const res = await fetch('http://localhost:8081/api/sucursales');
+                const sucursales = await res.json();
+                
+                selectSuc.innerHTML = `<option value="">-- Seleccioná una sucursal --</option>`;
+                sucursales.forEach(s => {
+                    if (s.id !== 0) {
+                        selectSuc.innerHTML += `<option value="${s.id}">${s.nombre}</option>`;
+                    }
+                });
+
+                if (typeof obtenerSucursalActiva === 'function') {
+                    const sucursalActiva = obtenerSucursalActiva();
+                    if (sucursalActiva && sucursalActiva !== '0') {
+                        selectSuc.value = sucursalActiva;
+                        selectSuc.dispatchEvent(new Event('change'));
+                    }
+                }
+            } catch (err) {
+                console.error("Error al cargar sucursales:", err);
+                selectSuc.innerHTML = `<option value="">Error al cargar sucursales</option>`;
+            }
+        }
+
+        document.getElementById("selectSucursalPedidoModal").addEventListener("change", async function() {
+            const idSucursalSeleccionada = this.value;
+            const selectProv = document.getElementById("selectProveedorModal");
+            const tbody = document.getElementById("tablaModalProductos");
+            const buscador = document.getElementById("buscadorModalPedido");
+
+            if (buscador) {
+                buscador.disabled = true;
+                buscador.value = "";
+            }
+            if (tbody) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná un proveedor arriba para ver sus productos.</td></tr>`;
+            }
+
+            if (!idSucursalSeleccionada) {
+                if (selectProv) {
+                    selectProv.innerHTML = `<option value="">-- Primero seleccioná una sucursal --</option>`;
+                    selectProv.disabled = true;
+                }
+                return;
+            }
+
+            if (selectProv) {
+                selectProv.innerHTML = `<option value="">Cargando proveedores...</option>`;
+                selectProv.disabled = false;
+            }
+
+            try {
+                const resProd = await fetch(`http://localhost:8081/api/productos?idSucursal=${idSucursalSeleccionada}`);
+                if (!resProd.ok) throw new Error('Error al conectar con productos de la sucursal');
+                catalogoProductosGlobal = await resProd.json();
+
+                const resProv = await fetch('http://localhost:8081/api/proveedores');
+                if (!resProv.ok) throw new Error('Error al conectar con proveedores');
+                const listaProveedoresBD = await resProv.json();
+
+                if (selectProv) {
+                    selectProv.innerHTML = `<option value="">-- Seleccioná un proveedor --</option>`;
+                    if (listaProveedoresBD.length === 0) {
+                        selectProv.innerHTML = `<option value="" disabled>No hay proveedores cargados</option>`;
+                        return;
+                    }
+
+                    listaProveedoresBD.forEach(p => {
+                        selectProv.innerHTML += `<option value="${p.idProveedor}" data-nombre="${p.nombre}">${p.nombre}</option>`;
+                    });
+                }
+            } catch (err) {
+                console.error("Error al cargar datos por sucursal:", err);
+                if (selectProv) selectProv.innerHTML = `<option value="">Error al cargar proveedores</option>`;
+            }
+        });
+
+        document.getElementById("selectProveedorModal").addEventListener("change", function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const proveedorNombre = selectedOption ? selectedOption.getAttribute("data-nombre") : "";
+            const buscador = document.getElementById("buscadorModalPedido");
+
+            if (!this.value) {
+                if (buscador) {
+                    buscador.disabled = true;
+                    buscador.value = "";
+                }
+                document.getElementById("tablaModalProductos").innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">Seleccioná un proveedor arriba para ver sus productos.</td></tr>`;
+                return;
+            }
+
+            if (buscador) buscador.disabled = false;
+            renderizarModalProductosPorProveedor(proveedorNombre);
+        });
+
+        document.getElementById("buscadorModalPedido").addEventListener("input", function() {
+            const selectProv = document.getElementById("selectProveedorModal");
+            const selectedOption = selectProv ? selectProv.options[selectProv.selectedIndex] : null;
+            const proveedorNombre = selectedOption ? selectedOption.getAttribute("data-nombre") : "";
+            if (proveedorNombre) {
+                renderizarModalProductosPorProveedor(proveedorNombre);
+            }
+        });
+
+        function renderizarModalProductosPorProveedor(proveedorFiltro) {
+            const tbody = document.getElementById("tablaModalProductos");
+            const buscador = document.getElementById("buscadorModalPedido");
+            const textoFiltro = buscador ? buscador.value.toLowerCase().trim() : "";
+
+            let filtrados = catalogoProductosGlobal.filter(p => {
+                const provProducto = p.proveedor ? p.proveedor.trim() : "Sin Proveedor Asignado";
+                if (provProducto !== proveedorFiltro) return false;
+
+                const codigo = (p.codigo || "").toLowerCase();
+                const nombre = (p.nombre || "").toLowerCase();
+                const marca = (p.marca || "").toLowerCase();
+                return !textoFiltro || codigo.includes(textoFiltro) || nombre.includes(textoFiltro) || marca.includes(textoFiltro);
+            });
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;">No se encontraron productos para este proveedor.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = "";
+            filtrados.forEach(p => {
+                const stock = parseInt(p.stock || 0);
+                const min = parseInt(p.stockMinimo || 5);
+                const precioCosto = parseFloat(p.precioCompra || 0);
+
+                let badgeClass = "order-status delivered", badgeText = "Disponible";
+                if (stock === 0) {
+                    badgeClass = "order-status cancelled";
+                    badgeText = "Agotado";
+                } else if (stock <= min) {
+                    badgeClass = "order-status prepared";
+                    badgeText = "Stock bajo";
+                }
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><span class="order-number">${p.codigo || "-"}</span></td>
+                        <td><strong>${p.nombre}</strong></td>
+                        <td>${p.marca || "-"}</td>
+                        <td><strong>${stock} u.</strong></td>
+                        <td><span class="${badgeClass}">${badgeText}</span></td>
+                        <td>
+                            <input type="number" class="input-cant-pedido" 
+                                data-id="${p.idProducto}"
+                                data-nombre="${p.nombre}" 
+                                data-precio-compra="${precioCosto}"
+                                value="0" min="0" placeholder="0" 
+                                style="width: 75px; height: 35px; padding: 0 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); text-align: center; font-weight: bold; font-family: inherit;">
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function generarMensajeWhatsAppPedido() {
+            const idSucursalSeleccionada = document.getElementById("selectSucursalPedidoModal").value;
+            if (!idSucursalSeleccionada) {
+                alert("Por favor, seleccioná una sucursal destino.");
+                return;
+            }
+
+            const inputs = document.querySelectorAll(".input-cant-pedido");
+            let listaItemsMensaje = [];
+            let itemsGuardados = [];
+            let totalPedidoCosto = 0;
+
+            inputs.forEach(input => {
+                const cantidad = parseInt(input.value) || 0;
+                if (cantidad > 0) {
+                    const idProd = input.dataset.id;
+                    const nombre = input.dataset.nombre;
+                    const precioCosto = parseFloat(input.dataset.precioCompra) || 0;
+                    
+                    totalPedidoCosto += (cantidad * precioCosto);
+                    listaItemsMensaje.push(`• ${cantidad} u. de ${nombre}`);
+                    itemsGuardados.push({ 
+                        idProducto: idProd, 
+                        nombre: nombre, 
+                        cantidad: cantidad,
+                        precioUnitario: precioCosto 
+                    });
+                }
+            });
+
+            if (itemsGuardados.length === 0) {
+                alert("Por favor, ingresá una cantidad mayor a 0 en al menos un producto.");
+                return;
+            }
+
+            const selectProvElem = document.getElementById("selectProveedorModal");
+            const nombreProveedorTexto = selectProvElem.options[selectProvElem.selectedIndex].text;
+
+            let mensaje = `Hola ${nombreProveedorTexto}, te paso el pedido a realizar:\n` + listaItemsMensaje.join("\n") + `\n\nMuchas gracias`;
+
+            const nuevoPedidoBD = {
+                idSucursal: parseInt(idSucursalSeleccionada),
+                proveedor: nombreProveedorTexto,
+                detalle: JSON.stringify(itemsGuardados),
+                total: totalPedidoCosto
+            };
+
+            try {
+                const respuesta = await fetch('http://localhost:8081/api/pedidos/crear', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevoPedidoBD)
+                });
+
+                if (respuesta.ok) {
+                    navigator.clipboard.writeText(mensaje).then(() => {
+                        alert(`¡Pedido guardado con éxito!`);
+                        cerrarModalNuevoPedido();
+                        cargarHistorialPedidosBD(); 
+                    });
+                } else {
+                    alert("Error al guardar el pedido en la base de datos.");
+                }
+            } catch (err) {
+                console.error("Error de conexión:", err);
+                alert("No se pudo conectar con el servidor Java.");
+            }
+        }
+
+        function abrirModalRecepcion(idHistorial, idPedidoFicticio) {
+            pedidoActualEnRecepcion = idHistorial;
+            document.getElementById("modalIdPedido").textContent = idPedidoFicticio;
+            
+            const tbody = document.getElementById("tablaRecepcionProductos");
+            tbody.innerHTML = "";
+
+            const pedidoEncontrado = historialPedidosGlobal.find(h => h.id === idHistorial);
+            if (!pedidoEncontrado) return;
+
+            let items = [];
+            try {
+                items = JSON.parse(pedidoEncontrado.detalle);
+            } catch (e) { items = []; }
+
+            items.forEach((item) => {
+                const precioOrig = item.precioUnitario || 0;
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${item.nombre || 'Producto ID ' + item.idProducto}</strong></td>
+                        <td>${item.cantidad} u.</td>
+                        <td>
+                            <input type="number" class="input-cant-recepcion" 
+                                data-id="${item.idProducto}"
+                                value="${item.cantidad}" min="0" disabled
+                                style="width: 70px; height: 35px; text-align: center; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold;">
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" class="input-precio-recepcion" 
+                                data-id="${item.idProducto}"
+                                value="${precioOrig}" min="0" disabled
+                                style="width: 90px; height: 35px; text-align: center; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold;">
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("modalRecepcionPedido").classList.add("active");
+        }
+
+        function cerrarModalRecepcion() {
+            document.getElementById("modalRecepcionPedido").classList.remove("active");
+        }
+
+        function toggleModificacionCantidades(permitirEdicion) {
+            const inputsCant = document.querySelectorAll(".input-cant-recepcion");
+            const inputsPrecio = document.querySelectorAll(".input-precio-recepcion");
+            
+            inputsCant.forEach(input => {
+                input.disabled = !permitirEdicion;
+                input.style.background = permitirEdicion ? "var(--surface)" : "var(--surface-2)";
+            });
+
+            inputsPrecio.forEach(input => {
+                input.disabled = !permitirEdicion;
+                input.style.background = permitirEdicion ? "var(--surface)" : "var(--surface-2)";
+            });
+        }
+
+        async function procesarIngresoStockEfectivo() {
+            const inputsCant = document.querySelectorAll(".input-cant-recepcion");
+            const inputsPrecio = document.querySelectorAll(".input-precio-recepcion");
+            let listaItemsRecepcion = [];
+            let nuevoTotalCalculado = 0;
+
+            inputsCant.forEach((inputCant, index) => {
+                const idProd = parseInt(inputCant.dataset.id);
+                const cantidadRecibida = parseInt(inputCant.value) || 0;
+                const nuevoPrecio = parseFloat(inputsPrecio[index].value) || 0;
+
+                nuevoTotalCalculado += (cantidadRecibida * nuevoPrecio);
+
+                listaItemsRecepcion.push({ 
+                    idProducto: idProd, 
+                    cantidad: cantidadRecibida,
+                    nuevoPrecioCompra: nuevoPrecio 
+                });
+            });
+
+            const datosRecepcion = {
+                idHistorial: pedidoActualEnRecepcion,
+                totalCalculado: nuevoTotalCalculado,
+                items: listaItemsRecepcion
+            };
+
+            try {
+                const res = await fetch('http://localhost:8081/api/pedidos/recibir', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosRecepcion)
+                });
+
+                let data = {};
+                try { data = await res.json(); } catch (e) {}
+
+                if (res.ok || (data && data.exito)) {
+                    alert("¡Pedido recibido con éxito! Se actualizó el stock y se sumó la deuda al proveedor.");
+                    cerrarModalRecepcion();
+                    cargarHistorialPedidosBD();
+                } else {
+                    alert("Ocurrió un error al intentar procesar la recepción.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error de conexión con el servidor Java.");
+            }
+        }
+
+        async function cancelarPedidoFila(btn) {
+            const fila = btn.closest("tr");
+            const idHistorial = parseInt(fila.dataset.idHistorial);
+            const num = fila.dataset.id;
+
+            if (!confirm(`¿Querés cancelar el pedido ${num}?`)) return;
+
+            try {
+                const response = await fetch('http://localhost:8081/api/pedidos/cancelar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idHistorial: idHistorial })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.exito) {
+                    alert("Pedido cancelado correctamente.");
+                    cargarHistorialPedidosBD(); 
+                } else {
+                    alert("No se pudo cancelar el pedido en la base de datos.");
+                }
+            } catch (error) {
+                console.error("Error de conexión:", error);
+                alert("Error al conectar con el servidor Java.");
+            }
+        }
+
+        const filtroTipo = document.getElementById("filtroTipo");
+        const filtroEstado = document.getElementById("filtroEstado");
+        const inputFechaDesde = document.getElementById("fechaDesde");
+        const inputFechaHasta = document.getElementById("fechaHasta");
+
+        function aplicarFiltros() {
+            const tipo = filtroTipo.value;
+            const estado = filtroEstado.value;
+            const fechaDesdeVal = inputFechaDesde.value ? new Date(inputFechaDesde.value + "T00:00:00") : null;
+            const fechaHastaVal = inputFechaHasta.value ? new Date(inputFechaHasta.value + "T23:59:59") : null;
+            
+            const selectSucGlobal = document.getElementById("selectSucursalGlobal");
+            const sucursalActiva = selectSucGlobal ? parseInt(selectSucGlobal.value) || 0 : 0;
+
+            const filas = document.querySelectorAll("#tablaPedidos tr[data-id]");
+            let visiblesCount = 0;
+
+            filas.forEach(fila => {
+                const tipoFila = fila.dataset.tipo;
+                const estadoFila = fila.dataset.estado;
+                const sucFila = parseInt(fila.dataset.sucursal) || 1;
+                const origFila = parseInt(fila.dataset.origen) || 0;
+                const destFila = parseInt(fila.dataset.destino) || 0;
+                
+                let coincideSucursal = true;
+                if (sucursalActiva !== 0) {
+                    if (tipoFila === "transferencia") {
+                        coincideSucursal = (origFila === sucursalActiva || destFila === sucursalActiva);
+                    } else {
+                        coincideSucursal = (sucFila === sucursalActiva);
+                    }
+                }
+
+                const celdas = fila.querySelectorAll("td");
+                let coincideFecha = true;
+
+                if (celdas.length > 1) {
+                    const textoFecha = celdas[1].textContent.trim();
+                    const partesFecha = textoFecha.split("/");
+                    if (partesFecha.length === 3) {
+                        const fechaFila = new Date(`${partesFecha[2]}-${partesFecha[1]}-${partesFecha[0]}T00:00:00`);
+
+                        if (fechaDesdeVal && fechaFila < fechaDesdeVal) coincideFecha = false;
+                        if (fechaHastaVal && fechaFila > fechaHastaVal) coincideFecha = false;
+                    }
+                }
+
+                const coincideTipo = tipo === "todos" || tipo === tipoFila;
+                const coincideEstado = estado === "todos" || estado === estadoFila;
+
+                if (coincideTipo && coincideEstado && coincideFecha && coincideSucursal) {
+                    fila.style.display = "";
+                    visiblesCount++;
+                } else {
+                    fila.style.display = "none";
+                }
+            });
+
+            document.getElementById("cantidadPedidos").textContent = visiblesCount + " pedidos registrados";
+            document.getElementById("infoPaginacion").textContent = `Mostrando ${visiblesCount} pedidos`;
+        }
+
+        filtroTipo.addEventListener("change", aplicarFiltros);
+        filtroEstado.addEventListener("change", aplicarFiltros);
+        inputFechaDesde.addEventListener("change", aplicarFiltros);
+        inputFechaHasta.addEventListener("change", aplicarFiltros);
+
+        document.getElementById("limpiarFiltros").addEventListener("click", function () {
+            filtroTipo.value = "todos";
+            filtroEstado.value = "todos";
+            inputFechaDesde.value = "";
+            inputFechaHasta.value = "";
+            aplicarFiltros();
+        });
+    </script>
+    <script src="auth.js"></script>
+</body>
+
+</html>
