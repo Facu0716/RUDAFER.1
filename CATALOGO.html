@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUDAFER - Catálogo de Productos">
+
+    <title>RUDAFER | Catálogo de Productos</title>
+
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="INVENTARIO.css">
+
+    <!-- Previene el parpadeo de modo claro a modo oscuro -->
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- CONTROL MODO OSCURO -->
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+
+            <!-- LOGO -->
+            <div class="brand">
+                <a href="INICIO.EMPLEADOS.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- MENÚ EMPLEADOS / VENDEDORES -->
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.EMPLEADOS.html" class="nav-item">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </span>
+                    <span>Inicio / Ventas</span>
+                </a>
+
+                <a href="CATALOGO.html" class="nav-item active">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 4h14v16H5z"/>
+                            <path d="M8 8h8M8 12h8M8 16h5"/>
+                        </svg>
+                    </span>
+                    <span>Catálogo</span>
+                </a>
+            </nav>
+
+            <!-- ESTADO -->
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Consulta de productos</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <!-- BUSCADOR GLOBAL -->
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7"/>
+                        <path d="m20 20-4-4"/>
+                    </svg>
+
+                    <input type="search" id="busqueda-global" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+
+                <!-- ACCIONES -->
+                <div class="topbar-actions">
+
+                    <!-- MODO OSCURO -->
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track">
+                            <span class="theme-knob"></span>
+                        </span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <!-- USUARIO -->
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Empleado</span>
+                        </div>
+
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- CONTENIDO CATÁLOGO -->
+            <div class="page-content">
+
+                <!-- ENCABEZADO -->
+                <section class="inventory-heading">
+                    <div>
+                        <span class="eyebrow">CONSULTA DE PRODUCTOS</span>
+                        <h2>Catálogo de Productos</h2>
+                        <p>Buscá ubicaciones físicas, stock actual y precios de los productos en tienda.</p>
+                    </div>
+                </section>
+
+                <!-- FILTROS DE BÚSQUEDA -->
+                <section class="inventory-filters panel">
+                    <div class="filter-search">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m20 20-4-4"/>
+                        </svg>
+                        <input type="search" id="buscar-producto" placeholder="Buscar por nombre o código...">
+                    </div>
+
+                    <div class="filter-select">
+                        <label>Categoría</label>
+                        <select id="filtro-categoria">
+                            <option value="todas">Todas las categorías</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-select">
+                        <label>Marca</label>
+                        <select id="filtro-marca">
+                            <option value="todas">Todas las marcas</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-select">
+                        <label>Estado</label>
+                        <select id="filtro-estado">
+                            <option value="todos">Todos los estados</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="bajo">Stock bajo</option>
+                            <option value="agotado">Agotado</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- CABECERA CATALOGO -->
+                <section class="catalog-header">
+                    <div>
+                        <strong>Productos en Catálogo</strong>
+                        <span id="cantidad-productos">Cargando catálogo...</span>
+                    </div>
+
+                    <div class="catalog-options">
+                        <span>Ordenar por</span>
+                        <select id="orden-productos">
+                            <option value="nombre">Nombre</option>
+                            <option value="stock">Stock</option>
+                            <option value="precio">Precio</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- TABLA DE CATÁLOGO (SIN COLUMNA DE ACCIONES) -->
+                <section class="inventory-table-panel panel">
+                    <div class="inventory-table-wrapper">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>CÓDIGO</th>
+                                    <th>PRODUCTO</th>
+                                    <th>MARCA</th>
+                                    <th>PRECIO</th>
+                                    <th>UBICACIÓN</th>
+                                    <th>STOCK</th>
+                                    <th>ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos-body">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">
+                                        Cargando productos desde el servidor...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGINACIÓN -->
+                    <div class="inventory-pagination">
+                        <span class="pagination-info" id="pagination-info">
+                            Mostrando productos disponibles en catálogo
+                        </span>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    <span>RUDAFER · Catálogo Consulta</span>
+                    <span>Sincronizado con MySQL</span>
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- JAVASCRIPT DEL CATÁLOGO DE CONSULTA -->
+    <script>
+        let listaProductosGlobal = [];
+        const STOCK_MINIMO_DEFAULT = 5;
+
+        // 1. CARGAR PRODUCTOS DESDE LA API EN JAVA
+        async function cargarProductosDesdeBD() {
+            const tbody = document.getElementById('tabla-productos-body');
+
+            try {
+                const respuesta = await fetch('http://localhost:8081/api/productos');
+                if (!respuesta.ok) throw new Error('Error en la respuesta del servidor');
+
+                listaProductosGlobal = await respuesta.json();
+                
+                poblarSelectsFiltro(listaProductosGlobal);
+                aplicarFiltros();
+
+            } catch (error) {
+                console.error('Error al conectar con la API:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: var(--danger, #e74c3c); padding: 25px;">
+                            Error de conexión con el servidor Java (localhost:8081).
+                        </td>
+                    </tr>`;
+            }
+        }
+
+        // 2. POBLAR DESPLEGABLES CON VALORES DE LA BASE DE DATOS
+        function poblarSelectsFiltro(productos) {
+            const selectMarca = document.getElementById('filtro-marca');
+            const selectCat = document.getElementById('filtro-categoria');
+
+            if (selectMarca) {
+                const marcasUnicas = [...new Set(productos.map(p => p.marca).filter(Boolean))];
+                selectMarca.innerHTML = '<option value="todas">Todas las marcas</option>';
+                marcasUnicas.forEach(marca => {
+                    const opt = document.createElement('option');
+                    opt.value = marca.toLowerCase().trim();
+                    opt.textContent = marca;
+                    selectMarca.appendChild(opt);
+                });
+            }
+
+            if (selectCat) {
+                const categoriasUnicas = [...new Set(productos.map(p => p.categoria).filter(Boolean))];
+                selectCat.innerHTML = '<option value="todas">Todas las categorías</option>';
+                categoriasUnicas.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.toLowerCase().trim();
+                    opt.textContent = cat;
+                    selectCat.appendChild(opt);
+                });
+            }
+        }
+
+        // 3. FILTRADO, BÚSQUEDA Y RENDERIZADO
+        function aplicarFiltros() {
+            const tbody = document.getElementById('tabla-productos-body');
+            const contador = document.getElementById('cantidad-productos');
+
+            const inputBuscador = document.getElementById('buscar-producto');
+            const textoBusqueda = inputBuscador ? inputBuscador.value.toLowerCase().trim() : '';
+            
+            const selectCat = document.getElementById('filtro-categoria');
+            const catSelec = selectCat ? selectCat.value.toLowerCase().trim() : 'todas';
+
+            const selectMarca = document.getElementById('filtro-marca');
+            const marcaSelec = selectMarca ? selectMarca.value.toLowerCase().trim() : 'todas';
+
+            const selectEstado = document.getElementById('filtro-estado');
+            const estadoSelec = selectEstado ? selectEstado.value.toLowerCase().trim() : 'todos';
+
+            const selectOrden = document.getElementById('orden-productos');
+            const ordenSelec = selectOrden ? selectOrden.value : 'nombre';
+
+            let filtrados = listaProductosGlobal.filter(p => {
+                const codigo = (p.codigo || '').toLowerCase();
+                const nombre = (p.nombre || '').toLowerCase();
+                const marca = (p.marca || '').toLowerCase();
+                const categoria = (p.categoria || '').toLowerCase();
+                const stock = parseInt(p.stock || 0);
+                const stockMin = p.stockMinimo !== undefined ? parseInt(p.stockMinimo) : STOCK_MINIMO_DEFAULT;
+
+                let estadoCalculado = 'disponible';
+                if (stock === 0) {
+                    estadoCalculado = 'agotado';
+                } else if (stock <= stockMin) {
+                    estadoCalculado = 'bajo';
+                }
+
+                const coincideTexto = !textoBusqueda || 
+                                     codigo.includes(textoBusqueda) || 
+                                     nombre.includes(textoBusqueda) || 
+                                     marca.includes(textoBusqueda);
+
+                const coincideCat = catSelec === 'todas' || categoria === catSelec;
+                const coincideMarca = marcaSelec === 'todas' || marca === marcaSelec;
+                const coincideEstado = estadoSelec === 'todos' || estadoCalculado === estadoSelec;
+
+                return coincideTexto && coincideCat && coincideMarca && coincideEstado;
+            });
+
+            // Ordenamiento (usando precioVenta)
+            filtrados.sort((a, b) => {
+                if (ordenSelec === 'nombre') return (a.nombre || '').localeCompare(b.nombre || '');
+                if (ordenSelec === 'stock') return parseInt(b.stock || 0) - parseInt(a.stock || 0);
+                if (ordenSelec === 'precio') return parseFloat(b.precioVenta || 0) - parseFloat(a.precioVenta || 0);
+                return 0;
+            });
+
+            if (contador) {
+                contador.textContent = `${filtrados.length} producto(s) encontrado(s)`;
+            }
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 25px;">
+                            No se encontraron productos que coincidan con los filtros.
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            filtrados.forEach(p => {
+                const inicial = p.nombre ? p.nombre.charAt(0).toUpperCase() : 'P';
+                const precioFormateado = parseFloat(p.precioVenta || 0).toFixed(2);
+                const stock = parseInt(p.stock || 0);
+                const stockMin = p.stockMinimo !== undefined ? parseInt(p.stockMinimo) : STOCK_MINIMO_DEFAULT;
+
+                // Formato de Ubicación: Estante - Fila
+                const estanteVal = (p.estante && p.estante.trim() !== '') ? p.estante : '-';
+                const filaVal = (p.fila && p.fila.trim() !== '') ? p.fila : '-';
+                const ubicacionTexto = (estanteVal !== '-' || filaVal !== '-') ? `${estanteVal} - ${filaVal}` : 'Sin ubicar';
+
+                let badgeClass = 'status-badge success';
+                let badgeText = 'Disponible';
+
+                if (stock === 0) {
+                    badgeClass = 'status-badge danger';
+                    badgeText = 'Agotado';
+                } else if (stock <= stockMin) {
+                    badgeClass = 'status-badge warning';
+                    badgeText = 'Stock bajo';
+                }
+
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td><span class="product-code">${p.codigo || '-'}</span></td>
+                    <td>
+                        <div class="catalog-product">
+                            <div class="product-image">${inicial}</div>
+                            <div>
+                                <strong>${p.nombre}</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${p.marca || '-'}</td>
+                    <td>$${precioFormateado}</td>
+                    <td><strong style="font-weight: 700; color: var(--text);">${ubicacionTexto}</strong></td>
+                    <td><strong class="stock-number">${stock} u.</strong></td>
+                    <td><span class="${badgeClass}">${badgeText}</span></td>
+                `;
+                tbody.appendChild(fila);
+            });
+        }
+
+        // 4. LISTENERS E INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarProductosDesdeBD();
+
+            const buscador = document.getElementById("buscar-producto");
+            const busquedaGlobal = document.getElementById("busqueda-global");
+            const filtroCat = document.getElementById("filtro-categoria");
+            const filtroMarca = document.getElementById("filtro-marca");
+            const filtroEstado = document.getElementById("filtro-estado");
+            const ordenProd = document.getElementById("orden-productos");
+
+            if (buscador) {
+                buscador.addEventListener("input", aplicarFiltros);
+                buscador.addEventListener("keyup", aplicarFiltros);
+            }
+            if (filtroCat) filtroCat.addEventListener("change", aplicarFiltros);
+            if (filtroMarca) filtroMarca.addEventListener("change", aplicarFiltros);
+            if (filtroEstado) filtroEstado.addEventListener("change", aplicarFiltros);
+            if (ordenProd) ordenProd.addEventListener("change", aplicarFiltros);
+
+            if (busquedaGlobal && buscador) {
+                busquedaGlobal.addEventListener("input", function () {
+                    buscador.value = this.value;
+                    aplicarFiltros();
+                });
+            }
+        });
+
+        // ATAJO CTRL + K
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                const bg = document.getElementById("busqueda-global");
+                if (bg) bg.focus();
+            }
+        });
+    </script>
+
+    <!-- SCRIPT DE AUTENTICACIÓN -->
+    <script src="auth.js"></script>
+</body>
+</html>

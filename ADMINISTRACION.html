@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUDAFER | Administración</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="ADMINISTRACION.css">
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+</head>
+
+<body>
+
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark"><span></span><span></span><span></span></div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></span>
+                    <span>Inicio</span>
+                </a>
+                <a href="INVENTARIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+                    <span>Inventario</span>
+                </a>
+                <a href="PEDIDOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6M9 7h3"/></svg></span>
+                    <span>Pedidos</span>
+                </a>
+                <a href="MOVIMIENTOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 7h11l-2.5-2.5"/><path d="M17 17H6l2.5 2.5"/><path d="M18 7a6 6 0 0 0-6-4"/><path d="M6 17a6 6 0 0 0 6 4"/></svg></span>
+                    <span>Movimientos</span>
+                </a>
+                <a href="REPORTES.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-8"/><path d="M3 19h18"/></svg></span>
+                    <span>Reportes</span>
+                </a>
+                <a href="ADMINISTRACION.html" class="nav-item active">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1.1 1.6 1.6-.1.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h-.1a1.8 1.8 0 0 0-1.7.8z"/></svg></span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" id="busqueda-global" placeholder="Buscar..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+                <div class="topbar-actions">
+                    <!-- Selector Global de Sucursal -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+                        <label for="selectSucursalGlobal" style="font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL:</label>
+                        <select id="selectSucursalGlobal" class="form-control" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold; font-size: 13px;" onchange="cambiarSucursalActiva(this.value)">
+                            <option value="1">Sucursal Central</option>
+                            <option value="2">Sucursal 2</option>
+                        </select>
+                    </div>
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track"><span class="theme-knob"></span></span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-page-content">
+                
+                <!-- SECCIÓN 1: EMPLEADOS -->
+                <section style="margin-bottom: 40px;">
+                    <div class="admin-section-heading">
+                        <h2>Gestión de Empleados y Comisiones</h2>
+                        <button class="btn-accion-admin" type="button" onclick="abrirModalEmpleado()">+ Nuevo empleado</button>
+                    </div>
+
+                    <div class="admin-table-card">
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>DNI</th>
+                                        <th>EMPLEADO</th>
+                                        <th>TELÉFONO</th>
+                                        <th>USUARIO</th>
+                                        <th>ROL</th>
+                                        <th>COMISIÓN (%)</th>
+                                        <th>COMISIÓN ACUMULADA</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaEmpleados">
+                                    <tr><td colspan="8" style="text-align: center; padding: 25px; color: var(--muted);">Cargando empleados...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: PROVEEDORES -->
+                <section style="margin-bottom: 40px;">
+                    <div class="admin-section-heading">
+                        <h2>Gestión de Proveedores</h2>
+                        <button class="btn-accion-admin" type="button" onclick="abrirModalProveedor()">+ Nuevo proveedor</button>
+                    </div>
+
+                    <div class="admin-table-card">
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>PROVEEDOR</th>
+                                        <th>PRODUCTOS ASOCIADOS</th>
+                                        <th>ÚLTIMO PEDIDO</th>
+                                        <th>DEUDA TOTAL</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaProveedores">
+                                    <tr><td colspan="6" style="text-align: center; padding: 25px; color: var(--muted);">Cargando proveedores...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: SUCURSALES -->
+                <section>
+                    <div class="admin-section-heading">
+                        <h2>Gestión de Sucursales</h2>
+                        <button class="btn-accion-admin" type="button" onclick="abrirModalSucursal()">+ Nueva sucursal</button>
+                    </div>
+
+                    <div class="admin-table-card">
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID SUCURSAL</th>
+                                        <th>NOMBRE DE LA SUCURSAL</th>
+                                        <th>DIRECCIÓN</th>
+                                        <th>TELÉFONO</th>
+                                        <th>EMAIL</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaSucursales">
+                                    <tr><td colspan="6" style="text-align: center; padding: 25px; color: var(--muted);">Cargando sucursales...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL REGISTRAR/EDITAR EMPLEADO -->
+    <div class="admin-modal-overlay" id="modalEmpleado">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <h3 id="tituloModalEmpleado">Registrar Nuevo Empleado</h3>
+                <button type="button" onclick="cerrarModalEmpleado()">✕</button>
+            </div>
+            <form id="formEmpleado" onsubmit="guardarEmpleado(event)">
+                <input type="hidden" id="empId" value="0">
+                <div class="admin-form-grid">
+                    <div class="admin-form-group"><label>DNI</label><input type="text" id="empDni" required></div>
+                    <div class="admin-form-group"><label>Nombres</label><input type="text" id="empNombres" required></div>
+                    <div class="admin-form-group"><label>Apellidos</label><input type="text" id="empApellidos" required></div>
+                    <div class="admin-form-group"><label>Teléfono</label><input type="text" id="empTelefono"></div>
+                    <div class="admin-form-group"><label>Nombre de Usuario</label><input type="text" id="empUsuario" required></div>
+                    <div class="admin-form-group"><label>Contraseña</label><input type="password" id="empPassword" required></div>
+                    <div class="admin-form-group"><label>Sucursal ID</label><input type="number" id="empSucursal" value="1" required></div>
+                    <div class="admin-form-group"><label>Rol ID (1: Admin, 2: Empleado)</label><input type="number" id="empRol" value="2" required></div>
+                    <div class="admin-form-group full"><label>Comisión por venta (%)</label><input type="number" step="0.1" id="empComision" value="2.5" required></div>
+                </div>
+                <div class="admin-modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalEmpleado()">Cancelar</button>
+                    <button type="submit" class="btn-accion-admin">Guardar Empleado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTRAR / EDITAR PROVEEDOR -->
+    <div class="admin-modal-overlay" id="modalProveedor">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <h3 id="tituloModalProveedor">Registrar Nuevo Proveedor</h3>
+                <button type="button" onclick="cerrarModalProveedor()">✕</button>
+            </div>
+            <form id="formProveedor" onsubmit="guardarProveedor(event)">
+                <input type="hidden" id="provId" value="0">
+                <div class="admin-form-grid">
+                    <div class="admin-form-group full"><label>Nombre del Proveedor</label><input type="text" id="provNombre" required></div>
+                    <div class="admin-form-group"><label>Teléfono</label><input type="text" id="provTelefono"></div>
+                    <div class="admin-form-group"><label>Email</label><input type="email" id="provEmail"></div>
+                    <div class="admin-form-group full"><label>Deuda Total ($)</label><input type="number" step="0.01" id="provDeudaInicial" value="0.00" placeholder="0.00"></div>
+                </div>
+                <div class="admin-modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalProveedor()">Cancelar</button>
+                    <button type="submit" class="btn-accion-admin">Guardar Proveedor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTRAR PAGO A PROVEEDOR -->
+    <div class="admin-modal-overlay" id="modalPagoProveedor">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <h3 id="tituloModalPago">Registrar Pago</h3>
+                <button type="button" onclick="cerrarModalPago()">✕</button>
+            </div>
+            <form id="formPago" onsubmit="procesarPagoProveedor(event)">
+                <input type="hidden" id="pagoIdProveedor">
+                <div class="admin-form-group full" style="margin-bottom: 15px;">
+                    <label>Deuda Actual Pendiente</label>
+                    <input type="text" id="pagoDeudaActual" readonly style="font-weight: bold; color: var(--danger);">
+                </div>
+                <div class="admin-form-group full" style="margin-bottom: 15px;">
+                    <label>Monto a Pagar ($)</label>
+                    <input type="number" step="0.01" id="pagoMonto" required placeholder="Ej: 50000">
+                </div>
+                <div class="admin-form-group full" style="margin-bottom: 20px;">
+                    <label>Observación / Nro de Comprobante</label>
+                    <input type="text" id="pagoObservacion" placeholder="Ej: Transferencia bancaria CBU...">
+                </div>
+                <div class="admin-modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalPago()">Cancelar</button>
+                    <button type="submit" class="btn-accion-admin">Confirmar Pago</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTRAR / EDITAR SUCURSAL -->
+    <div class="admin-modal-overlay" id="modalSucursal">
+        <div class="admin-modal-card">
+            <div class="admin-modal-header">
+                <h3 id="tituloModalSucursal">Registrar Nueva Sucursal</h3>
+                <button type="button" onclick="cerrarModalSucursal()">✕</button>
+            </div>
+            <form id="formSucursal" onsubmit="guardarSucursal(event)">
+                <input type="hidden" id="sucId" value="0">
+                <div class="admin-form-grid">
+                    <div class="admin-form-group full"><label>Nombre de la Sucursal</label><input type="text" id="sucNombre" required placeholder="Ej: Sucursal Norte"></div>
+                    <div class="admin-form-group full"><label>Dirección</label><input type="text" id="sucDireccion" placeholder="Ej: Av. San Martín 1234"></div>
+                    <div class="admin-form-group"><label>Teléfono</label><input type="text" id="sucTelefono" placeholder="Ej: 1122334455"></div>
+                    <div class="admin-form-group"><label>Email</label><input type="email" id="sucEmail" placeholder="Ej: sucursal@rudafer.com"></div>
+                </div>
+                <div class="admin-modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalSucursal()">Cancelar</button>
+                    <button type="submit" class="btn-accion-admin">Guardar Sucursal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        let empleadosCache = [];
+        let proveedoresCache = [];
+        let sucursalesCache = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarDatosAdmin();
+        });
+
+        async function cargarDatosAdmin() {
+            try {
+                // Cargar Empleados
+                const resEmp = await fetch('http://localhost:8081/api/empleados');
+                empleadosCache = await resEmp.json();
+                const tbodyEmp = document.getElementById("tablaEmpleados");
+                tbodyEmp.innerHTML = "";
+
+                if(empleadosCache.length === 0) {
+                    tbodyEmp.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--muted);">No hay empleados registrados.</td></tr>`;
+                } else {
+                    empleadosCache.forEach(e => {
+                        const inicial = e.nombres ? e.nombres.charAt(0).toUpperCase() : 'E';
+                        const comisionAcumulada = parseFloat(e.comisionAcumulada || 0).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        
+                        tbodyEmp.innerHTML += `
+                            <tr>
+                                <td><strong>${e.dni}</strong></td>
+                                <td>
+                                    <div class="cell-flex">
+                                        <div class="item-avatar">${inicial}</div>
+                                        <div><strong>${e.nombres} ${e.apellidos}</strong><br><small style="color:var(--muted)">${e.nombreUsuario}</small></div>
+                                    </div>
+                                </td>
+                                <td>${e.telefono || '-'}</td>
+                                <td>${e.nombreUsuario}</td>
+                                <td><span class="tag ${e.rol === 'ADMINISTRADOR' ? 'entrada' : 'salida'}">${e.rol}</span></td>
+                                <td><strong>${e.comision}%</strong></td>
+                                <td><strong style="color: var(--success, #29995a);">$ ${comisionAcumulada}</strong></td>
+                                <td>
+                                    <button class="action-icon-btn" type="button" title="Liquidar y resetear comisión a $0" onclick="resetearComisionIndividual(${e.idEmpleado})" style="background: rgba(41,153,90,0.1); border-color: rgba(41,153,90,0.3); color: var(--success, #29995a);">
+                                        💵
+                                    </button>
+                                    <button class="action-icon-btn" type="button" title="Editar empleado" onclick="editarEmpleado(${e.idEmpleado})">
+                                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    </button>
+                                    <button class="action-icon-btn delete" type="button" title="Eliminar empleado" onclick="eliminarEmpleado(${e.idEmpleado})">
+                                        <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                // Cargar Proveedores
+                const resProv = await fetch('http://localhost:8081/api/proveedores');
+                proveedoresCache = await resProv.json();
+                const tbodyProv = document.getElementById("tablaProveedores");
+                tbodyProv.innerHTML = "";
+
+                if(proveedoresCache.length === 0) {
+                    tbodyProv.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">No hay proveedores registrados.</td></tr>`;
+                } else {
+                    proveedoresCache.forEach(p => {
+                        const deuda = p.deudaTotal || 0;
+                        const ultPedidoTxt = p.ultimoPedido > 0 ? `$ ${p.ultimoPedido.toLocaleString('es-AR', {minimumFractionDigits: 2})}` : 'Sin pedidos';
+                        tbodyProv.innerHTML += `
+                            <tr>
+                                <td><span class="order-number">PRV-00${p.idProveedor}</span></td>
+                                <td><strong>${p.nombre}</strong></td>
+                                <td><strong>${p.productosAsociados} prod.</strong></td>
+                                <td>${ultPedidoTxt}</td>
+                                <td><strong style="color: ${deuda > 0 ? 'var(--danger)' : 'var(--success)'};">$ ${deuda.toLocaleString('es-AR', {minimumFractionDigits: 2})}</strong></td>
+                                <td>
+                                    <button class="action-icon-btn" type="button" title="Editar proveedor" onclick="editarProveedor(${p.idProveedor})">
+                                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    </button>
+                                    <button class="action-icon-btn" type="button" title="Registrar pago a proveedor" onclick="abrirModalPago(${p.idProveedor}, '${p.nombre}', ${deuda})">
+                                        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                                    </button>
+                                    <button class="action-icon-btn delete" type="button" title="Eliminar proveedor" onclick="eliminarProveedor(${p.idProveedor})">
+                                        <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                // Cargar Sucursales
+                const resSuc = await fetch('http://localhost:8081/api/sucursales');
+                const sucursalesCrudas = await resSuc.json();
+                
+                sucursalesCache = sucursalesCrudas.filter(s => {
+                    const idVal = s.id !== undefined ? s.id : s.ID_Sucursal;
+                    if (idVal === 0 || idVal === "0") return false;
+                    const nombreVal = s.nombre || s.Nombre || "";
+                    const nombreMin = nombreVal.toLowerCase();
+                    if (nombreMin.includes("vista general") || nombreMin.includes("general")) return false;
+                    return true;
+                });
+
+                const tbodySuc = document.getElementById("tablaSucursales");
+                tbodySuc.innerHTML = "";
+
+                if(sucursalesCache.length === 0) {
+                    tbodySuc.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--muted);">No hay sucursales registradas.</td></tr>`;
+                } else {
+                    sucursalesCache.forEach(s => {
+                        const sId = s.id !== undefined ? s.id : s.ID_Sucursal;
+                        const sNombre = s.nombre || s.Nombre || "Sin nombre";
+                        const sDireccion = s.direccion || s.Direccion || s.domicilio || s.Domicilio || 'Sin dirección';
+                        const sTelefono = s.telefono || s.Telefono || '-';
+                        const sEmail = s.email || s.Email || 'Sin email';
+
+                        tbodySuc.innerHTML += `
+                            <tr>
+                                <td><span class="order-number">SUC-00${sId}</span></td>
+                                <td><strong>${sNombre}</strong></td>
+                                <td>${sDireccion}</td>
+                                <td>${sTelefono}</td>
+                                <td>${sEmail}</td>
+                                <td>
+                                    <button class="action-icon-btn" type="button" title="Editar sucursal" onclick="editarSucursal(${sId})">
+                                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    </button>
+                                    <button class="action-icon-btn delete" type="button" title="Eliminar sucursal" onclick="eliminarSucursal(${sId})">
+                                        <svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+            } catch (err) {
+                console.error("Error al cargar datos de administración:", err);
+            }
+        }
+
+        async function resetearComisionIndividual(idEmpleado) {
+            if (!confirm("¿Confirmas que se le pagó la comisión a este empleado y deseas resetear su acumulado a $0?")) {
+                return;
+            }
+
+            try {
+                const respuesta = await fetch('http://localhost:8081/api/empleados/resetear-uno', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idEmpleado: idEmpleado })
+                });
+
+                const resultado = await respuesta.json();
+                if (respuesta.ok && resultado.exito) {
+                    alert("¡Comisión liquidada y reseteada con éxito!");
+                    cargarDatosAdmin(); 
+                } else {
+                    alert("Error al intentar resetear la comisión.");
+                }
+            } catch (error) {
+                console.error("Error de conexión:", error);
+                alert("No se pudo conectar con el servidor Java.");
+            }
+        }
+
+        function abrirModalEmpleado() {
+            document.getElementById("empId").value = "0";
+            document.getElementById("tituloModalEmpleado").textContent = "Registrar Nuevo Empleado";
+            document.getElementById("formEmpleado").reset();
+            document.getElementById("modalEmpleado").classList.add("active");
+        }
+
+        function editarEmpleado(id) {
+            const emp = empleadosCache.find(e => e.idEmpleado === id);
+            if (!emp) return;
+            document.getElementById("empId").value = emp.idEmpleado;
+            document.getElementById("empDni").value = emp.dni;
+            document.getElementById("empNombres").value = emp.nombres;
+            document.getElementById("empApellidos").value = emp.apellidos;
+            document.getElementById("empTelefono").value = emp.telefono || "";
+            document.getElementById("empUsuario").value = emp.nombreUsuario;
+            document.getElementById("empPassword").value = "";
+            document.getElementById("empSucursal").value = "1";
+            document.getElementById("empRol").value = emp.rol === "ADMINISTRADOR" ? 1 : 2;
+            document.getElementById("empComision").value = emp.comision;
+            
+            document.getElementById("tituloModalEmpleado").textContent = `Editar Empleado: ${emp.nombres}`;
+            document.getElementById("modalEmpleado").classList.add("active");
+        }
+
+        function cerrarModalEmpleado() { document.getElementById("modalEmpleado").classList.remove("active"); }
+        
+        function abrirModalProveedor() {
+            document.getElementById("provId").value = "0";
+            document.getElementById("tituloModalProveedor").textContent = "Registrar Nuevo Proveedor";
+            document.getElementById("formProveedor").reset();
+            document.getElementById("modalProveedor").classList.add("active");
+        }
+
+        function editarProveedor(id) {
+            const prov = proveedoresCache.find(p => p.idProveedor === id);
+            if (!prov) return;
+            document.getElementById("provId").value = prov.idProveedor;
+            document.getElementById("provNombre").value = prov.nombre;
+            document.getElementById("provTelefono").value = prov.telefono || "";
+            document.getElementById("provEmail").value = prov.email || "";
+            document.getElementById("provDeudaInicial").value = prov.deudaTotal || 0;
+            
+            document.getElementById("tituloModalProveedor").textContent = `Editar Proveedor: ${prov.nombre}`;
+            document.getElementById("modalProveedor").classList.add("active");
+        }
+
+        function cerrarModalProveedor() { document.getElementById("modalProveedor").classList.remove("active"); }
+
+        function abrirModalPago(id, nombre, deuda) {
+            document.getElementById("pagoIdProveedor").value = id;
+            document.getElementById("tituloModalPago").textContent = `Registrar Pago: ${nombre}`;
+            document.getElementById("pagoDeudaActual").value = `$ ${deuda.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+            document.getElementById("pagoMonto").value = "";
+            document.getElementById("pagoObservacion").value = "";
+            document.getElementById("modalPagoProveedor").classList.add("active");
+        }
+        function cerrarModalPago() { document.getElementById("modalPagoProveedor").classList.remove("active"); }
+
+        function abrirModalSucursal() {
+            document.getElementById("sucId").value = "0";
+            document.getElementById("tituloModalSucursal").textContent = "Registrar Nueva Sucursal";
+            document.getElementById("formSucursal").reset();
+            document.getElementById("modalSucursal").classList.add("active");
+        }
+
+        function editarSucursal(id) {
+            const suc = sucursalesCache.find(s => (s.id !== undefined ? s.id : s.ID_Sucursal) === id);
+            if (!suc) return;
+            document.getElementById("sucId").value = suc.id !== undefined ? suc.id : suc.ID_Sucursal;
+            document.getElementById("sucNombre").value = suc.nombre || suc.Nombre || "";
+            document.getElementById("sucDireccion").value = suc.direccion || suc.Direccion || suc.domicilio || suc.Domicilio || "";
+            document.getElementById("sucTelefono").value = suc.telefono || suc.Telefono || "";
+            document.getElementById("sucEmail").value = suc.email || suc.Email || "";
+            
+            document.getElementById("tituloModalSucursal").textContent = `Editar Sucursal: ${suc.nombre || suc.Nombre}`;
+            document.getElementById("modalSucursal").classList.add("active");
+        }
+
+        function cerrarModalSucursal() { document.getElementById("modalSucursal").classList.remove("active"); }
+
+        async function guardarEmpleado(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById("empId").value);
+            const data = {
+                idEmpleado: id,
+                dni: document.getElementById("empDni").value,
+                nombres: document.getElementById("empNombres").value,
+                apellidos: document.getElementById("empApellidos").value,
+                telefono: document.getElementById("empTelefono").value,
+                usuario: document.getElementById("empUsuario").value,
+                password: document.getElementById("empPassword").value,
+                idSucursal: parseInt(document.getElementById("empSucursal").value),
+                idRol: parseInt(document.getElementById("empRol").value),
+                comision: parseFloat(document.getElementById("empComision").value)
+            };
+
+            const url = 'http://localhost:8081/api/empleados';
+            const method = id > 0 ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert(id > 0 ? "Empleado actualizado" : "Empleado registrado con éxito");
+                cerrarModalEmpleado();
+                cargarDatosAdmin();
+            } else {
+                alert("Error al procesar el empleado");
+            }
+        }
+
+        async function eliminarEmpleado(id) {
+            if(!confirm("¿Estás seguro de eliminar este empleado?")) return;
+            const res = await fetch(`http://localhost:8081/api/empleados?id=${id}`, { method: 'DELETE' });
+            if(res.ok) {
+                alert("Empleado eliminado");
+                cargarDatosAdmin();
+            } else {
+                alert("No se pudo eliminar el empleado");
+            }
+        }
+
+        async function guardarProveedor(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById("provId").value);
+            const deudaVal = parseFloat(document.getElementById("provDeudaInicial").value || 0);
+            
+            const data = {
+                idProveedor: id,
+                nombre: document.getElementById("provNombre").value,
+                telefono: document.getElementById("provTelefono").value,
+                email: document.getElementById("provEmail").value,
+                deudaInicial: deudaVal,
+                deudaTotal: deudaVal
+            };
+
+            const url = 'http://localhost:8081/api/proveedores';
+            const method = id > 0 ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert(id > 0 ? "Proveedor actualizado con éxito" : "Proveedor registrado con éxito");
+                cerrarModalProveedor();
+                cargarDatosAdmin();
+            } else {
+                alert("Error al procesar el proveedor");
+            }
+        }
+
+        async function eliminarProveedor(id) {
+            if(!confirm("¿Estás seguro de eliminar este proveedor?")) return;
+            const res = await fetch(`http://localhost:8081/api/proveedores?id=${id}`, { method: 'DELETE' });
+            if(res.ok) {
+                alert("Proveedor eliminado");
+                cargarDatosAdmin();
+            } else {
+                alert("No se pudo eliminar el proveedor");
+            }
+        }
+
+        async function procesarPagoProveedor(e) {
+            e.preventDefault();
+            const data = {
+                idProveedor: parseInt(document.getElementById("pagoIdProveedor").value),
+                monto: parseFloat(document.getElementById("pagoMonto").value),
+                observacion: document.getElementById("pagoObservacion").value
+            };
+
+            const res = await fetch('http://localhost:8081/api/proveedores/pago', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if(res.ok) {
+                alert("Pago registrado y deuda actualizada correctamente");
+                cerrarModalPago();
+                cargarDatosAdmin();
+            } else {
+                alert("Error al registrar el pago");
+            }
+        }
+
+        async function guardarSucursal(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById("sucId").value);
+            const data = {
+                id: id,
+                nombre: document.getElementById("sucNombre").value,
+                direccion: document.getElementById("sucDireccion").value,
+                telefono: document.getElementById("sucTelefono").value,
+                email: document.getElementById("sucEmail").value
+            };
+
+            const url = 'http://localhost:8081/api/sucursales';
+            const method = id > 0 ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (res.ok) {
+                    alert(id > 0 ? "Sucursal actualizada con éxito" : "Sucursal registrada con éxito");
+                    cerrarModalSucursal();
+                    cargarDatosAdmin();
+                } else {
+                    alert("Error al procesar la sucursal en el servidor.");
+                }
+            } catch (err) {
+                console.error("Error de red:", err);
+                alert("No se pudo conectar con el servidor Java.");
+            }
+        }
+
+        async function eliminarSucursal(id) {
+            if(!confirm("¿Estás seguro de eliminar esta sucursal?")) return;
+            try {
+                const res = await fetch(`http://localhost:8081/api/sucursales?id=${id}`, { method: 'DELETE' });
+                if(res.ok) {
+                    alert("Sucursal eliminada correctamente");
+                    cargarDatosAdmin();
+                } else {
+                    alert("No se pudo eliminar la sucursal (puede tener stock o empleados asociados).");
+                }
+            } catch (err) {
+                console.error("Error de red:", err);
+                alert("Error de conexión con el servidor.");
+            }
+        }
+    </script>
+</body>
+
+</html>

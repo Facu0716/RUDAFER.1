@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RUDAFER | Iniciar Sesión</title>
+
+    <link
+        rel="stylesheet"
+        href="ESTILOS.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+
+</head>
+
+
+<body class="login-body">
+
+
+    <!-- CONTENEDOR TARJETA CENTRADA -->
+
+    <main class="login-card">
+
+
+        <!-- BRAND / LOGO -->
+
+        <div class="login-brand">
+
+            <div class="brand-mark">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+
+            <div class="brand-text">
+
+                <h1>
+                    RUDAFER
+                </h1>
+
+                <p>
+                    Gestión Interna
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- TÍTULO -->
+
+        <div class="login-header">
+
+            <h2>
+                Bienvenido al sistema
+            </h2>
+
+            <p>
+                Ingresá tus credenciales para acceder.
+            </p>
+
+        </div>
+
+
+        <!-- FORMULARIO PREPARADO PARA JAVA (POST /login) -->
+
+        <form
+            action="login"
+            method="POST"
+            class="login-form"
+        >
+
+
+            <!-- USUARIO (DNI) -->
+
+            <div class="form-group">
+
+                <label for="dni">
+                    Usuario (DNI)
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+
+                        <circle
+                            cx="12"
+                            cy="7"
+                            r="4"
+                        />
+
+                    </svg>
+
+
+                    <input
+                        type="text"
+                        id="dni"
+                        name="dni"
+                        placeholder="Ej: 38123456"
+                        required
+                        autofocus
+                        pattern="[0-9]{7,8}"
+                        title="Ingrese un número de DNI válido sin puntos"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTRASEÑA -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect
+                            x="3"
+                            y="11"
+                            width="18"
+                            height="11"
+                            rx="2"
+                            ry="2"
+                        />
+
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+
+                    </svg>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÓN INGRESAR -->
+
+            <button
+                type="submit"
+                class="btn-login"
+            >
+
+                <span>
+                    Ingresar al portal
+                </span>
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M5 12h14"/>
+
+                    <path d="m12 5 7 7-7 7"/>
+
+                </svg>
+
+            </button>
+
+        </form>
+
+
+        <!-- FOOTER DE SEGURIDAD -->
+
+        <div class="login-footer">
+
+            <span class="status-dot"></span>
+
+            <span>
+                Conexión segura con el servidor
+            </span>
+
+        </div>
+
+    </main>
+<!-- Vinculación del script JavaScript de Login -->
+    <script src="login.js"></script>
+
+</body>
+
+</html>

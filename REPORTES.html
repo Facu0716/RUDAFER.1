@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUDAFER - Reportes y estadísticas">
+    <title>RUDAFER | Reportes</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <link rel="stylesheet" href="REPORTES.css">
+    <!-- Previene el parpadeo de modo claro a modo oscuro -->
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+</head>
+
+<body>
+    <!-- CONTROL MODO OSCURO -->
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></span>
+                    <span>Inicio</span>
+                </a>
+                <a href="INVENTARIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+                    <span>Inventario</span>
+                </a>
+                <a href="PEDIDOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6M9 7h3"/></svg></span>
+                    <span>Pedidos</span>
+                </a>
+                <a href="MOVIMIENTOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 7h11l-2.5-2.5"/><path d="M17 17H6l2.5 2.5"/><path d="M18 7a6 6 0 0 0-6-4"/><path d="M6 17a6 6 0 0 6 4"/></svg></span>
+                    <span>Movimientos</span>
+                </a>
+                <a href="REPORTES.html" class="nav-item active">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-8"/><path d="M3 19h18"/></svg></span>
+                    <span>Reportes</span>
+                </a>
+                <a href="ADMINISTRACION.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1.1 1.6 1.6-.1.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h.1a1.8 1.8 0 0 0-1.7.8z"/></svg></span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" id="busqueda-global" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+                <div class="topbar-actions">
+                    <!-- Selector Global de Sucursal unificado (0 = Vista General) -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+                        <label for="selectSucursalGlobal" style="font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL:</label>
+                        <select id="selectSucursalGlobal" class="form-control" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold; font-size: 13px;">
+                            <option value="0">🌐 Vista General (Todas)</option>
+                            <option value="1">Sucursal Central</option>
+                            <option value="2">Sucursal 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track"><span class="theme-knob"></span></span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- ENCABEZADO -->
+                <section class="page-heading">
+                    <div class="heading-left">
+                        <span class="eyebrow">ANÁLISIS DEL NEGOCIO</span>
+                        <h2>Reportes y estadísticas</h2>
+                        <p>Analizá las ventas, ganancias, inventario y rendimiento de RUDAFER.</p>
+                    </div>
+
+                    <div class="date-pill">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+                        <span id="lblFechaHoy">Cargando fecha...</span>
+                    </div>
+                </section>
+
+                <!-- FILTROS -->
+                <section class="reportes-filtros">
+                    <div class="reportes-filtro">
+                        <label>PERÍODO</label>
+                        <select id="reportesPeriodo">
+                            <option value="semanal">Esta semana</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="mensual">Este mes</option>
+                            <option value="todo">Todo el historial</option>
+                        </select>
+                    </div>
+
+                    <div class="reportes-filtro">
+                        <label>COMPARAR CON</label>
+                        <select id="reportesComparacion">
+                            <option value="anterior">Período anterior</option>
+                            <option value="anio">Mismo período año anterior</option>
+                            <option value="ninguno">Sin comparación</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="reportes-filtro-boton" id="actualizarReportes">
+                        <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-4M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14.9 4M20 20v-5h-5"/></svg>
+                        Actualizar
+                    </button>
+                </section>
+
+                <!-- INDICADORES PRINCIPALES -->
+                <section class="reportes-indicadores">
+                    <!-- FACTURACIÓN -->
+                    <article class="reportes-card reportes-card-orange">
+                        <div class="reportes-card-superior">
+                            <span>FACTURACIÓN</span>
+                            <div class="reportes-icono"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 10h4M7 14h7"/></svg></div>
+                        </div>
+                        <strong class="reportes-numero" id="lblFacturacion">$0</strong>
+                        <div class="reportes-variacion positiva"><span>Total facturado en el período</span></div>
+                    </article>
+
+                    <!-- GANANCIA -->
+                    <article class="reportes-card reportes-card-green">
+                        <div class="reportes-card-superior">
+                            <span>GANANCIA ESTIMADA</span>
+                            <div class="reportes-icono"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-7"/></svg></div>
+                        </div>
+                        <strong class="reportes-numero" id="lblGanancia">$0</strong>
+                        <div class="reportes-variacion positiva"><span>Precio Venta - Precio Compra</span></div>
+                    </article>
+
+                    <!-- VENTAS -->
+                    <article class="reportes-card reportes-card-yellow">
+                        <div class="reportes-card-superior">
+                            <span>VENTAS</span>
+                            <div class="reportes-icono"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></div>
+                        </div>
+                        <strong class="reportes-numero" id="lblCantidadVentas">0</strong>
+                        <div class="reportes-variacion positiva"><span>operaciones realizadas</span></div>
+                    </article>
+
+                    <!-- TICKET -->
+                    <article class="reportes-card reportes-card-blue">
+                        <div class="reportes-card-superior">
+                            <span>TICKET PROMEDIO</span>
+                            <div class="reportes-icono"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></div>
+                        </div>
+                        <strong class="reportes-numero" id="lblTicketPromedio">$0</strong>
+                        <div class="reportes-variacion positiva"><span>importe promedio</span></div>
+                    </article>
+
+                    <!-- VALOR DEL STOCK -->
+                    <article class="reportes-card reportes-card-dark">
+                        <div class="reportes-card-superior">
+                            <span>VALOR DEL STOCK</span>
+                            <div class="reportes-icono">
+                                <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+                            </div>
+                        </div>
+                        <strong class="reportes-numero" id="lblValorStock">$0</strong>
+                        <div class="reportes-variacion neutra">
+                            <span id="lblTotalProductos">productos registrados</span>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- GRÁFICO DE VENTAS + MÉTODOS DE PAGO -->
+                <section class="reportes-fila-principal">
+                    <article class="panel reportes-panel reportes-panel-grafico">
+                        <div class="reportes-panel-header">
+                            <div>
+                                <span class="eyebrow">EVOLUCIÓN</span>
+                                <h3>Ventas del período</h3>
+                                <p>Facturación diaria registrada.</p>
+                            </div>
+                            <div class="reportes-leyenda">
+                                <span class="reportes-leyenda-item"><i></i>Ventas</span>
+                            </div>
+                        </div>
+
+                        <div class="reportes-grafico">
+                            <div class="reportes-eje" id="ejeValoresGrafico">
+                                <span>$250k</span>
+                                <span>$200k</span>
+                                <span>$150k</span>
+                                <span>$100k</span>
+                                <span>$50k</span>
+                                <span>$0</span>
+                            </div>
+
+                            <div class="reportes-grafico-area">
+                                <div class="reportes-linea linea-1"></div>
+                                <div class="reportes-linea linea-2"></div>
+                                <div class="reportes-linea linea-3"></div>
+                                <div class="reportes-linea linea-4"></div>
+                                <div class="reportes-linea linea-5"></div>
+
+                                <div class="reportes-barras" id="barrasGraficoVentas">
+                                    <div style="text-align:center; width:100%; color:var(--muted); margin-top:50px;">Cargando gráfico...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="panel reportes-panel reportes-pagos">
+                        <div class="reportes-panel-header">
+                            <div>
+                                <span class="eyebrow">VENTAS</span>
+                                <h3>Métodos de pago</h3>
+                                <p>Distribución de operaciones.</p>
+                            </div>
+                        </div>
+
+                        <div class="reportes-pagos-lista">
+                            <div class="reportes-pago">
+                                <div class="reportes-pago-icono efectivo">$</div>
+                                <div class="reportes-pago-info"><strong>Efectivo</strong><span id="cantEfectivo">0 operaciones</span></div>
+                                <strong id="porcEfectivo">0%</strong>
+                            </div>
+                            <div class="reportes-pago">
+                                <div class="reportes-pago-icono debito">▣</div>
+                                <div class="reportes-pago-info"><strong>Débito</strong><span id="cantDebito">0 operaciones</span></div>
+                                <strong id="porcDebito">0%</strong>
+                            </div>
+                            <div class="reportes-pago">
+                                <div class="reportes-pago-icono credito">◇</div>
+                                <div class="reportes-pago-info"><strong>Crédito</strong><span id="cantCredito">0 operaciones</span></div>
+                                <strong id="porcCredito">0%</strong>
+                            </div>
+                            <div class="reportes-pago">
+                                <div class="reportes-pago-icono transferencia">↗</div>
+                                <div class="reportes-pago-info"><strong>Transferencia / QR</strong><span id="cantTransf">0 operaciones</span></div>
+                                <strong id="porcTransf">0%</strong>
+                            </div>
+                        </div>
+
+                        <div class="reportes-total-pagos">
+                            <span>Total de operaciones</span>
+                            <strong id="totalOpsPagos">0</strong>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- GANANCIAS + INVENTARIO -->
+                <section class="reportes-fila-secundaria">
+                    <article class="panel reportes-panel">
+                        <div class="reportes-panel-header">
+                            <div>
+                                <span class="eyebrow">RENTABILIDAD</span>
+                                <h3>Ganancias</h3>
+                            </div>
+                            <span class="reportes-margen" id="lblMargenCalculado">Margen --%</span>
+                        </div>
+
+                        <div class="reportes-ganancias">
+                            <div class="reportes-ganancia-row">
+                                <span>Facturación</span>
+                                <strong id="detalleFacturacion">$0</strong>
+                            </div>
+                            <div class="reportes-ganancia-row">
+                                <span>Costo de mercadería (Compras)</span>
+                                <strong class="reportes-costo" id="detalleCosto">-$0</strong>
+                            </div>
+                            <div class="reportes-separador"></div>
+                            <div class="reportes-ganancia-row total">
+                                <span>Ganancia bruta (Venta - Compra)</span>
+                                <strong id="detalleGanancia">$0</strong>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="panel reportes-panel">
+                        <div class="reportes-panel-header">
+                            <div>
+                                <span class="eyebrow">INVENTARIO</span>
+                                <h3>Estado del stock</h3>
+                            </div>
+                            <a href="INVENTARIO.html" class="text-button">Ver inventario →</a>
+                        </div>
+
+                        <div class="reportes-stock">
+                            <div class="reportes-stock-item">
+                                <div class="reportes-stock-cabecera">
+                                    <span>Disponible (Correcto)</span>
+                                    <strong id="stockBien">0</strong>
+                                </div>
+                                <div class="reportes-progreso">
+                                    <span class="reportes-progreso-verde" id="barStockBien" style="width: 0%;"></span>
+                                </div>
+                                <small>Stock adecuado</small>
+                            </div>
+
+                            <div class="reportes-stock-item">
+                                <div class="reportes-stock-cabecera">
+                                    <span>Stock bajo</span>
+                                    <strong id="stockBajo" style="color: #f39c12;">0</strong>
+                                </div>
+                                <div class="reportes-progreso">
+                                    <span class="reportes-progreso-amarillo" id="barStockBajo" style="width: 0%; background: #f39c12;"></span>
+                                </div>
+                                <small>Requiere seguimiento</small>
+                            </div>
+
+                            <div class="reportes-stock-item">
+                                <div class="reportes-stock-cabecera">
+                                    <span>Agotado</span>
+                                    <strong id="stockAgotado" style="color: #e74c3c;">0</strong>
+                                </div>
+                                <div class="reportes-progreso">
+                                    <span class="reportes-progreso-rojo" id="barStockAgotado" style="width: 0%;"></span>
+                                </div>
+                                <small>Sin stock disponible</small>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- PRODUCTOS DESTACADOS -->
+                <section class="panel reportes-panel reportes-productos">
+                    <div class="reportes-panel-header">
+                        <div>
+                            <span class="eyebrow">RENDIMIENTO</span>
+                            <h3>Productos más vendidos</h3>
+                            <p>Productos con mayor cantidad de unidades vendidas durante el período.</p>
+                        </div>
+                        <a href="INVENTARIO.html" class="text-button">Ver inventario →</a>
+                    </div>
+
+                    <div class="reportes-productos-grid" id="contenedorTopProductos">
+                        <!-- Carga dinámica -->
+                    </div>
+                </section>
+
+                <!-- HISTORIAL DE CIERRES DIARIOS -->
+                <section class="panel reportes-panel" style="margin-top: 30px;">
+                    <div class="reportes-panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div>
+                            <span class="eyebrow">AUDITORÍA</span>
+                            <h3>Historial de Cierres Diarios</h3>
+                            <p>Registro histórico consolidado de ventas por jornada.</p>
+                        </div>
+                        <button type="button" class="reportes-filtro-boton" onclick="ejecutarCierreHoy()" style="background: var(--orange, #f39c12); color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                            🔒 Forzar Cierre de Hoy
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper" style="overflow-x: auto;">
+                        <table class="admin-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border, #eee);">
+                                    <th style="padding: 12px;">FECHA</th>
+                                    <th style="padding: 12px;">TOTAL VENDIDO</th>
+                                    <th style="padding: 12px;">CANTIDAD DE VENTAS</th>
+                                    <th style="padding: 12px;">UNIDADES VENDIDAS</th>
+                                    <th style="padding: 12px;">HORA DE CIERRE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCierresDiarios">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 25px; color: var(--muted);">Cargando historial de cierres...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    <span>RUDAFER · Gestión Interna</span>
+                    <span>Sistema sincronizado</span>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                const bg = document.getElementById("busqueda-global");
+                if (bg) bg.focus();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const lblFecha = document.getElementById("lblFechaHoy");
+            if (lblFecha) {
+                const hoy = new Date();
+                const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+                lblFecha.textContent = hoy.toLocaleDateString('es-AR', opciones);
+            }
+
+            cargarReportes();
+            cargarHistorialCierres();
+
+            const btnActualizar = document.getElementById("actualizarReportes");
+            if (btnActualizar) btnActualizar.addEventListener("click", cargarReportes);
+
+            document.getElementById("reportesPeriodo").addEventListener("change", cargarReportes);
+            
+            const selectSuc = document.getElementById("selectSucursalGlobal");
+            if (selectSuc) selectSuc.addEventListener("change", () => {
+                cargarReportes();
+                cargarHistorialCierres();
+            });
+        });
+
+        async function cargarReportes() {
+            const periodo = document.getElementById("reportesPeriodo").value;
+            const selectSuc = document.getElementById("selectSucursalGlobal");
+            const idSucursal = selectSuc ? selectSuc.value : '0';
+
+            try {
+                const response = await fetch(`http://localhost:8081/api/dashboard/stats?periodo=${periodo}&idSucursal=${idSucursal}`);
+                if (!response.ok) throw new Error("Error al conectar con el servidor");
+
+                const data = await response.json();
+
+                const totalVendido = data.totalVendido || 0;
+                const costoMercaderia = data.costoTotalMercaderia || 0;
+                const gananciaNeta = data.gananciaNeta !== undefined ? data.gananciaNeta : (totalVendido - costoMercaderia);
+                const cantidadVentas = data.cantidadVentas || 0;
+                const ticketPromedio = cantidadVentas > 0 ? (totalVendido / cantidadVentas) : 0;
+                const valorStock = data.valorTotalStock || 0;
+
+                // 1. Indicadores principales
+                document.getElementById("lblFacturacion").textContent = `$ ${totalVendido.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById("lblGanancia").textContent = `$ ${gananciaNeta.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById("lblCantidadVentas").textContent = cantidadVentas;
+                document.getElementById("lblTicketPromedio").textContent = `$ ${ticketPromedio.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById("lblValorStock").textContent = `$ ${valorStock.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+
+                // 2. Rentabilidad
+                document.getElementById("detalleFacturacion").textContent = `$ ${totalVendido.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById("detalleCosto").textContent = `- $ ${costoMercaderia.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById("detalleGanancia").textContent = `$ ${gananciaNeta.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+
+                let margen = totalVendido > 0 ? ((gananciaNeta / totalVendido) * 100).toFixed(1) : 0;
+                document.getElementById("lblMargenCalculado").textContent = `Margen ${margen}%`;
+
+                // 3. Métodos de Pago
+                let totalOps = cantidadVentas;
+                document.getElementById("totalOpsPagos").textContent = totalOps;
+                
+                let pagosMap = { "Efectivo": 0, "Débito": 0, "Crédito": 0, "Transferencia": 0 };
+                
+                if (data.metodosPago && Array.isArray(data.metodosPago)) {
+                    data.metodosPago.forEach(p => {
+                        let nombreMetodo = (p.metodo || "").trim().toLowerCase();
+                        let cantidad = p.cantidad || 0;
+                        
+                        if (nombreMetodo.includes("efectivo")) {
+                            pagosMap["Efectivo"] += cantidad;
+                        } else if (nombreMetodo.includes("débito") || nombreMetodo.includes("debito")) {
+                            pagosMap["Débito"] += cantidad;
+                        } else if (nombreMetodo.includes("crédito") || nombreMetodo.includes("credito")) {
+                            pagosMap["Crédito"] += cantidad;
+                        } else if (nombreMetodo.includes("transferencia") || nombreMetodo.includes("qr")) {
+                            pagosMap["Transferencia"] += cantidad;
+                        } else {
+                            pagosMap["Efectivo"] += cantidad;
+                        }
+                    });
+                }
+
+                let efec = pagosMap["Efectivo"];
+                let deb = pagosMap["Débito"];
+                let cred = pagosMap["Crédito"];
+                let transf = pagosMap["Transferencia"];
+
+                let divisorOps = totalOps > 0 ? totalOps : 1;
+
+                document.getElementById("cantEfectivo").textContent = `${efec} operaciones`;
+                document.getElementById("porcEfectivo").textContent = `${Math.round((efec / divisorOps) * 100)}%`;
+
+                document.getElementById("cantDebito").textContent = `${deb} operaciones`;
+                document.getElementById("porcDebito").textContent = `${Math.round((deb / divisorOps) * 100)}%`;
+
+                document.getElementById("cantCredito").textContent = `${cred} operaciones`;
+                document.getElementById("porcCredito").textContent = `${Math.round((cred / divisorOps) * 100)}%`;
+
+                document.getElementById("cantTransf").textContent = `${transf} operaciones`;
+                document.getElementById("porcTransf").textContent = `${Math.round((transf / divisorOps) * 100)}%`;
+
+                // 4. Estado de Stock
+                let disp = data.stockDisponible || 0;
+                let bajo = data.stockBajo || 0;
+                let agotado = data.stockAgotado || 0;
+                let totalStockItems = disp + bajo + agotado;
+
+                document.getElementById("stockBien").textContent = disp;
+                document.getElementById("barStockBien").style.width = totalStockItems > 0 ? `${(disp/totalStockItems)*100}%` : `0%`;
+
+                document.getElementById("stockBajo").textContent = bajo;
+                document.getElementById("barStockBajo").style.width = totalStockItems > 0 ? `${(bajo/totalStockItems)*100}%` : `0%`;
+
+                document.getElementById("stockAgotado").textContent = agotado;
+                document.getElementById("barStockAgotado").style.width = totalStockItems > 0 ? `${(agotado/totalStockItems)*100}%` : `0%`;
+
+                // 5. Gráfico dinámico de barras
+                const contBarras = document.getElementById("barrasGraficoVentas");
+                if (contBarras) {
+                    contBarras.innerHTML = "";
+                    if (data.grafico && Array.isArray(data.grafico) && data.grafico.length > 0) {
+                        let maxValor = Math.max(...data.grafico.map(g => g.valor || 0));
+                        if (maxValor <= 0) maxValor = 1;
+
+                        data.grafico.forEach(g => {
+                            let porc = Math.round((g.valor / maxValor) * 100);
+                            let etiquetaCorta = (g.etiqueta || '').split('-').pop(); // Toma el día del mes
+                            contBarras.innerHTML += `
+                                <div class="reportes-barra-item" title="${g.etiqueta}: $${(g.valor || 0).toLocaleString('es-AR')}">
+                                    <div class="reportes-barra" style="height: ${porc}%;"></div>
+                                    <span>${etiquetaCorta}</span>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        contBarras.innerHTML = `<div style="text-align:center; width:100%; color:var(--muted); margin-top:50px;">Sin datos para el gráfico en este período.</div>`;
+                    }
+                }
+
+                // 6. Top 4 Productos más vendidos
+                const gridProds = document.getElementById("contenedorTopProductos");
+                if (gridProds) {
+                    if (data.topProductos && data.topProductos.length > 0) {
+                        gridProds.innerHTML = "";
+                        data.topProductos.forEach((p, idx) => {
+                            let rankingStr = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
+                            gridProds.innerHTML += `
+                                <div class="reportes-producto">
+                                    <div class="reportes-ranking">${rankingStr}</div>
+                                    <div class="reportes-producto-info">
+                                        <strong>${p.nombre}</strong>
+                                        <span>${p.categoria}</span>
+                                    </div>
+                                    <div class="reportes-producto-valor">
+                                        <strong>${p.unidades}</strong>
+                                        <span>unidades</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        gridProds.innerHTML = `<div style="padding: 20px; color: var(--muted);">No hay productos vendidos en el período seleccionado.</div>`;
+                    }
+                }
+            } catch (error) {
+                console.error("Error al cargar reportes:", error);
+            }
+        }
+
+        async function cargarHistorialCierres() {
+            const tbody = document.getElementById("tablaCierresDiarios");
+            if (!tbody) return;
+            
+            const selectSuc = document.getElementById("selectSucursalGlobal");
+            const idSucursal = selectSuc ? selectSuc.value : '0';
+
+            try {
+                const response = await fetch(`http://localhost:8081/api/cierre-caja?idSucursal=${idSucursal}`);
+                if (!response.ok) throw new Error("Error al conectar con el servidor");
+
+                const cierres = await response.json();
+                tbody.innerHTML = "";
+
+                if (cierres.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: var(--muted);">No hay cierres diarios registrados todavía.</td></tr>`;
+                    return;
+                }
+
+                cierres.forEach(c => {
+                    tbody.innerHTML += `
+                        <tr style="border-bottom: 1px solid var(--border, #eee);">
+                            <td style="padding: 12px;"><strong>${c.fecha}</strong></td>
+                            <td style="padding: 12px; color: var(--success, #29995a); font-weight: 700;">$ ${c.totalVendido.toLocaleString('es-AR', {minimumFractionDigits: 2})}</td>
+                            <td style="padding: 12px;">${c.cantidadVentas} ops.</td>
+                            <td style="padding: 12px;">${c.unidadesVendidas} u.</td>
+                            <td style="padding: 12px; color: var(--muted);">${c.fechaCierre || c.horaCierre}</td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error al cargar cierres:", error);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: var(--danger, #e74c3c);">Error al conectar con la base de datos.</td></tr>`;
+            }
+        }
+
+        async function ejecutarCierreHoy() {
+            if (!confirm("¿Deseas procesar y consolidar el cierre de caja de la jornada actual?")) return;
+
+            const selectSuc = document.getElementById("selectSucursalGlobal");
+            const idSucursal = selectSuc ? selectSuc.value : '1';
+
+            try {
+                const response = await fetch("http://localhost:8081/api/cierre-caja", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idSucursal: idSucursal })
+                });
+
+                const resultado = await response.json();
+                if (response.ok && resultado.exito) {
+                    alert("¡Cierre diario procesado y guardado con éxito!");
+                    cargarHistorialCierres();
+                } else {
+                    alert("No se pudo completar el cierre diario.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor Java.");
+            }
+        }
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>

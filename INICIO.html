@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RUDAFER - Sistema de gestión interna">
+    <title>RUDAFER | Inicio</title>
+    <link rel="stylesheet" href="ESTILOS.css">
+    <!-- Previene el parpadeo de modo claro a modo oscuro -->
+    <script>
+        if (localStorage.getItem("rudafer_theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+    <style>
+        /* Ajuste de tipografía interna para mayor legibilidad */
+        .page-content small, 
+        .stat-bottom, 
+        .stock-description, 
+        .hint, 
+        .quick-action span, 
+        .footer span,
+        .admin-table-card small,
+        .table-wrapper small {
+            font-size: 13px !important;
+        }
+        .stat-top span {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+        }
+        .stat-number {
+            font-size: 32px !important;
+        }
+
+        /* Estilos para el nuevo panel gerencial */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--bg-hover, #f8f9fa);
+            border-radius: 8px;
+            border: 1px solid var(--border-color, #e0e0e0);
+        }
+
+        .metric-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .metric-info strong {
+            font-size: 14px;
+        }
+
+        .metric-info small {
+            color: var(--muted, #6c757d);
+        }
+
+        .metric-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary, #e67e22);
+        }
+
+        .podium-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+            background: var(--border-color, #eee);
+            color: var(--text, #333);
+        }
+
+        .podium-1 { background: #f1c40f; color: #fff; }
+        .podium-2 { background: #bdc3c7; color: #fff; }
+        .podium-3 { background: #e67e22; color: #fff; }
+    </style>
+</head>
+
+<body>
+    <!-- CONTROL MODO OSCURO -->
+    <input type="checkbox" id="modo-oscuro" class="theme-toggle-input">
+
+    <div class="app">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="brand">
+                <a href="INICIO.html" class="brand-link">
+                    <div class="brand-mark">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>RUDAFER</h1>
+                        <p>Gestión Interna</p>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Navegación principal">
+                <a href="INICIO.html" class="nav-item active">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5h-5.7v-6h-5.6v6H3.5a.5.5 0 0 1-.5-.5z"/></svg></span>
+                    <span>Inicio</span>
+                </a>
+                <a href="INVENTARIO.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+                    <span>Inventario</span>
+                </a>
+                <a href="PEDIDOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6M9 7h3"/></svg></span>
+                    <span>Pedidos</span>
+                </a>
+                <a href="MOVIMIENTOS.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 7h11l-2.5-2.5"/><path d="M17 17H6l2.5 2.5"/><path d="M18 7a6 6 0 0 0-6-4"/><path d="M6 17a6 6 0 0 0 6 4"/></svg></span>
+                    <span>Movimientos</span>
+                </a>
+                <a href="REPORTES.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-8"/><path d="M3 19h18"/></svg></span>
+                    <span>Reportes</span>
+                </a>
+                <a href="ADMINISTRACION.html" class="nav-item">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1-1.6 1.6-.1-.1a1.8 1.8 0 0 0-2-.4 1.8 1.8 0 0 0-1.1 1.7v.1h-2.2v-.1a1.8 1.8 0 0 0-1.1-1.7 1.8 1.8 0 0 0-2 .4l-.1.1-1.6-1.6.1-.1a1.8 1.8 0 0 0 .4-2A1.8 1.8 0 0 0 7 13.9h-.1v-2.2H7a1.8 1.8 0 0 0 1.6-1.1 1.8 1.8 0 0 0-.4-2l-.1-.1 1.6-1.6.1.1a1.8 1.8 0 0 0 2 .4A1.8 1.8 0 0 0 12.9 6v-.1h2.2V6a1.8 1.8 0 0 0 1.1 1.7 1.8 1.8 0 0 0 2-.4l.1-.1 1.6 1.6-.1.1a1.8 1.8 0 0 0-.4 2 1.8 1.8 0 0 0 1.7 1.1h.1v2.2h-.1a1.8 1.8 0 0 0-1.7.8z"/></svg></span>
+                    <span>Administración</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Sistema operativo</strong>
+                    <span>Todo funcionando correctamente</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" id="busqueda" name="busqueda" placeholder="Buscar producto, código, categoría..." autocomplete="off">
+                    <kbd>Ctrl K</kbd>
+                </div>
+                
+                <div class="topbar-actions">
+                    <!-- Selector Global de Sucursal -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+                        <label for="selectSucursalGlobal" style="font-size: 12px; font-weight: bold; color: var(--muted);">SUCURSAL:</label>
+                        <select id="selectSucursalGlobal" class="form-control" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font-weight: bold; font-size: 13px;" onchange="cambiarSucursalActiva(this.value)">
+                            <option value="1">Sucursal Central</option>
+                        </select>
+                    </div>
+
+                    <label for="modo-oscuro" class="theme-switch" title="Cambiar modo claro/oscuro">
+                        <span class="theme-sun">☀</span>
+                        <span class="theme-track"><span class="theme-knob"></span></span>
+                        <span class="theme-moon">☾</span>
+                    </label>
+
+                    <div class="user-profile">
+                        <div class="avatar" id="avatarUsuario">U</div>
+                        <div class="user-info">
+                            <strong id="nombreUsuario">Cargando...</strong>
+                            <span id="rolUsuario">Administrador</span>
+                        </div>
+                        <button id="btnCerrarSesion" type="button" class="icon-button" title="Cerrar sesión" style="background: none; border: none; cursor: pointer; color: inherit; padding: 4px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- ENCABEZADO -->
+                <section class="page-heading">
+                    <div class="heading-left">
+                        <span class="eyebrow">PANEL GENERAL</span>
+                        <h2>Bienvenido, <span id="saludoUsuario">Usuario</span> <span class="wave-hand">👋</span></h2>
+                        <p>Acá tenés un resumen del estado actual de RUDAFER.</p>
+
+                        <!-- FILTRO DE TIEMPO / RANGO Y SUCURSAL -->
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+                            <div class="branch-selector">
+                                <label for="filtroTiempo">PERÍODO DE FILTRADO</label>
+                                <div class="select-wrapper">
+                                    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+                                    <select id="filtroTiempo" onchange="cargarDatosDashboard()">
+                                        <option value="diario">Hoy (Diario)</option>
+                                        <option value="semanal" selected>Últimos 7 días (Semanal)</option>
+                                        <option value="mensual">Este Mes (Mensual)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="date-pill">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+                        <span id="fechaActual">Cargando fecha...</span>
+                    </div>
+                </section>
+
+                <!-- ESTADÍSTICAS -->
+                <section class="stats-grid" aria-label="Resumen de estadísticas">
+                    <!-- TOTAL VENDIDO -->
+                    <article class="stat-card orange">
+                        <div class="stat-top">
+                            <span>TOTAL VENDIDO</span>
+                            <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 10h4M7 14h7"/></svg></div>
+                        </div>
+                        <div class="stat-number money" id="stat-total">$0</div>
+                        <div class="stat-bottom positive"><small>Suma total del período seleccionado</small></div>
+                    </article>
+
+                    <!-- CANTIDAD DE VENTAS -->
+                    <article class="stat-card yellow">
+                        <div class="stat-top">
+                            <span>CANTIDAD DE VENTAS</span>
+                            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></div>
+                        </div>
+                        <div class="stat-number" id="stat-ventas">0</div>
+                        <div class="stat-bottom positive"><small>Operaciones registradas</small></div>
+                    </article>
+
+                    <!-- UNIDADES VENDIDAS -->
+                    <article class="stat-card soft">
+                        <div class="stat-top">
+                            <span>UNIDADES VENDIDAS</span>
+                            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/></svg></div>
+                        </div>
+                        <div class="stat-number" id="stat-unidades">0</div>
+                        <div class="stat-bottom positive"><small>Artículos entregados</small></div>
+                    </article>
+
+                    <!-- ESTADO STOCK -->
+                    <article class="stat-card stock-card">
+                        <div class="stat-top">
+                            <span>ESTADO DEL STOCK</span>
+                            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="M8 16v-3M12 16V9M16 16V6"/></svg></div>
+                        </div>
+                        <div class="stock-summary">
+                            <div class="stock-status good">
+                                <span class="stock-dot"></span>
+                                <strong id="stock-bien">0</strong>
+                                <small>Disponible</small>
+                            </div>
+                            <div class="stock-status medium">
+                                <span class="stock-dot"></span>
+                                <strong id="stock-intermedio">0</strong>
+                                <small>Stock Bajo</small>
+                            </div>
+                            <div class="stock-status bad">
+                                <span class="stock-dot"></span>
+                                <strong id="stock-bajo">0</strong>
+                                <small>Agotado</small>
+                            </div>
+                        </div>
+                        <div class="stock-description">
+                            Productos según nivel actual
+                        </div>
+                    </article>
+
+                    <!-- GRÁFICO -->
+                    <article class="stat-card chart-card">
+                        <div class="chart-header">
+                            <div class="stat-top"><span>VENTAS</span></div>
+                        </div>
+                        <div class="chart-title">Rendimiento por período</div>
+                        <div class="mini-chart" style="display: flex; align-items: flex-end; justify-content: space-around; height: 120px; padding-top: 20px;" id="contenedorGrafico">
+                            <span style="color: var(--muted); font-size: 13px;">Cargando gráfico...</span>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- PANELES GERENCIALES -->
+                <section class="analytics-grid">
+                    <!-- MÉTODOS DE PAGO -->
+                    <article class="panel table-panel">
+                        <div class="section-title">
+                            <div>
+                                <span class="eyebrow">COBROS</span>
+                                <h3>Métodos de Pago</h3>
+                            </div>
+                        </div>
+                        <div class="metric-list" id="listaMetodosPago">
+                            <span style="color: var(--muted); font-size: 13px;">Cargando cobros...</span>
+                        </div>
+                    </article>
+
+                    <!-- TOP EMPLEADOS -->
+                    <article class="panel table-panel">
+                        <div class="section-title">
+                            <div>
+                                <span class="eyebrow">EQUIPO</span>
+                                <h3>Top Vendedores</h3>
+                            </div>
+                        </div>
+                        <div class="metric-list" id="listaTopEmpleados">
+                            <span style="color: var(--muted); font-size: 13px;">Cargando equipo...</span>
+                        </div>
+                    </article>
+
+                    <!-- TOP 3 PRODUCTOS -->
+                    <article class="panel table-panel">
+                        <div class="section-title">
+                            <div>
+                                <span class="eyebrow">PRODUCTOS</span>
+                                <h3>Top 3 Más Vendidos</h3>
+                            </div>
+                        </div>
+                        <div class="metric-list" id="listaTopProductos">
+                            <span style="color: var(--muted); font-size: 13px;">Cargando productos...</span>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    <span>RUDAFER · Gestión Interna</span>
+                    <span>Sincronizado con MySQL</span>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPT DE FUNCIONALIDAD DEL INICIO -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaHoy = new Date().toLocaleDateString('es-AR', opciones);
+            document.getElementById('fechaActual').textContent = fechaHoy.charAt(0).toUpperCase() + fechaHoy.slice(1);
+
+            // Cargar selector global de sucursales dinámicamente
+            await cargarSelectorSucursalesInicio();
+
+            // Cargar datos dinámicos del dashboard
+            cargarDatosDashboard();
+
+            // Atajo Ctrl + K para el buscador
+            document.addEventListener("keydown", (event) => {
+                if (event.ctrlKey && event.key.toLowerCase() === "k") {
+                    event.preventDefault();
+                    document.getElementById("busqueda").focus();
+                }
+            });
+        });
+
+        async function cargarSelectorSucursalesInicio() {
+            try {
+                const res = await fetch('http://localhost:8081/api/sucursales');
+                if (!res.ok) return;
+                const sucursales = await res.json();
+                const select = document.getElementById('selectSucursalGlobal');
+                if (!select) return;
+
+                select.innerHTML = '';
+                sucursales.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = s.nombre;
+                    select.appendChild(opt);
+                });
+
+                const sucursalGuardada = localStorage.getItem("rudafer_sucursal_activa") || "1";
+                select.value = sucursalGuardada;
+            } catch (e) {
+                console.error("Error al cargar selector de sucursales:", e);
+            }
+        }
+
+        function cambiarSucursalActiva(idSucursal) {
+            localStorage.setItem("rudafer_sucursal_activa", idSucursal);
+            cargarDatosDashboard();
+        }
+
+        async function cargarDatosDashboard() {
+            const periodo = document.getElementById('filtroTiempo').value;
+            const selectSuc = document.getElementById('selectSucursalGlobal');
+            const idSucursal = selectSuc ? selectSuc.value : (localStorage.getItem("rudafer_sucursal_activa") || "1");
+
+            try {
+                const response = await fetch(`http://localhost:8081/api/dashboard/stats?periodo=${periodo}&idSucursal=${idSucursal}`);
+                if (!response.ok) throw new Error('Error al conectar con el servidor');
+
+                const data = await response.json();
+
+                // Actualizar tarjetas de métricas principales
+                document.getElementById('stat-total').textContent = `$${(data.totalVendido || 0).toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+                document.getElementById('stat-ventas').textContent = data.cantidadVentas || 0;
+                document.getElementById('stat-unidades').textContent = data.unidadesVendidas || 0;
+
+                // Actualización robusta del stock
+                document.getElementById('stock-bien').textContent = data.stockDisponible !== undefined ? data.stockDisponible : (data.stockBien || 0);
+                document.getElementById('stock-intermedio').textContent = data.stockBajo !== undefined ? data.stockBajo : (data.stockIntermedio || 0);
+                document.getElementById('stock-bajo').textContent = data.stockAgotado || 0;
+
+                // Renderizar gráfico dinámico
+                renderizarGrafico(data.grafico || []);
+
+                // Renderizar métricas adicionales
+                renderizarMetodosPago(data.metodosPago || []);
+                renderizarTopEmpleados(data.topEmpleados || []);
+                renderizarTopProductos(data.topProductos || []);
+
+            } catch (error) {
+                console.error("Error al cargar estadísticas del inicio:", error);
+            }
+        }
+
+        function renderizarGrafico(puntos) {
+            const contenedor = document.getElementById('contenedorGrafico');
+            if (!puntos || puntos.length === 0) {
+                contenedor.innerHTML = `<span style="color: var(--muted); font-size: 13px;">No hay registros de ventas para esta sucursal en el período.</span>`;
+                return;
+            }
+
+            const maxValor = Math.max(...puntos.map(p => p.valor), 1);
+            contenedor.innerHTML = '';
+
+            puntos.forEach(p => {
+                const alturaPorcentaje = Math.round((p.valor / maxValor) * 100);
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'bar-item';
+                itemDiv.style.display = 'flex';
+                itemDiv.style.flexDirection = 'column';
+                itemDiv.style.alignItems = 'center';
+                itemDiv.style.flex = '1';
+                itemDiv.style.height = '100%';
+                itemDiv.style.justifyContent = 'flex-end';
+
+                itemDiv.innerHTML = `
+                    <div class="bar" style="height: ${Math.max(alturaPorcentaje, 10)}%; width: 24px; background: linear-gradient(to top, #f39c12, #e67e22); border-radius: 4px 4px 0 0;" title="${p.etiqueta}: $${p.valor.toLocaleString('es-AR')}"></div>
+                    <span style="font-size: 11px; margin-top: 5px; color: var(--muted);">${p.etiqueta}</span>
+                `;
+                contenedor.appendChild(itemDiv);
+            });
+        }
+
+        function renderizarMetodosPago(lista) {
+            const contenedor = document.getElementById('listaMetodosPago');
+            if (!lista || lista.length === 0) {
+                contenedor.innerHTML = `<span style="color: var(--muted); font-size: 13px;">Sin movimientos de cobro.</span>`;
+                return;
+            }
+
+            contenedor.innerHTML = lista.map(item => `
+                <div class="metric-item">
+                    <div class="metric-info">
+                        <strong>${item.metodo || 'Efectivo'}</strong>
+                        <small>${item.cantidad || 0} operaciones</small>
+                    </div>
+                    <span class="metric-value">$${(item.total || 0).toLocaleString('es-AR')}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderizarTopEmpleados(lista) {
+            const contenedor = document.getElementById('listaTopEmpleados');
+            if (!lista || lista.length === 0) {
+                contenedor.innerHTML = `<span style="color: var(--muted); font-size: 13px;">Sin ventas registradas por empleados en esta sucursal.</span>`;
+                return;
+            }
+
+            contenedor.innerHTML = lista.map((item, index) => `
+                <div class="metric-item">
+                    <div class="metric-info" style="flex-direction: row; align-items: center;">
+                        <span class="podium-badge podium-${index + 1}">${index + 1}</span>
+                        <div>
+                            <strong>${item.nombre}</strong>
+                            <br><small>${item.ventas || 0} ventas cerradas</small>
+                        </div>
+                    </div>
+                    <span class="metric-value">$${(item.total || 0).toLocaleString('es-AR')}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderizarTopProductos(lista) {
+            const contenedor = document.getElementById('listaTopProductos');
+            if (!lista || lista.length === 0) {
+                contenedor.innerHTML = `<span style="color: var(--muted); font-size: 13px;">Sin productos vendidos en esta sucursal.</span>`;
+                return;
+            }
+
+            contenedor.innerHTML = lista.map((item, index) => `
+                <div class="metric-item">
+                    <div class="metric-info" style="flex-direction: row; align-items: center;">
+                        <span class="podium-badge podium-${index + 1}">${index + 1}</span>
+                        <div>
+                            <strong>${item.nombre}</strong>
+                            <br><small>${item.unidades || 0} unidades vendidas</small>
+                        </div>
+                    </div>
+                    <span class="metric-value">$${(item.total || 0).toLocaleString('es-AR')}</span>
+                </div>
+            `).join('');
+        }
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>
